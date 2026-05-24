@@ -7,23 +7,36 @@
     buildMachines = [
       {
         maxJobs = 100;
-        speedFactor = 10;
+        speedFactor = 8;
         protocol = "ssh-ng";
         system = "x86_64-linux";
         hostName = "eu.nixbuild.net";
         supportedFeatures = ["benchmark" "big-parallel"];
       }
       {
-        maxJobs = 8;
-        speedFactor = 3;
+        maxJobs = 16;
+        speedFactor = 6;
+        protocol = "ssh-ng";
+        system = "x86_64-linux";
+        hostName = "ns3.kolyma.uz";
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
+      }
+      {
+        maxJobs = 24;
+        speedFactor = 4;
         protocol = "ssh-ng";
         system = "x86_64-linux";
         hostName = "ns3.oss.uzinfocom.uz";
         supportedFeatures = [
-          "big-parallel"
-          "kvm"
           "nixos-test"
           "benchmark"
+          "big-parallel"
+          "kvm"
         ];
       }
     ];
