@@ -10,6 +10,10 @@
       gpg.format = "ssh";
       commit.gpgSign = true;
       init.defaultBranch = "main";
+      credential = {
+        "https://github.com".helper = ["!gh auth git-credential"];
+        "https://gist.github.com".helper = ["!gh auth git-credential"];
+      };
       user = {
         name = "Ezozbek";
         email = "git@ezozbek.dev";
