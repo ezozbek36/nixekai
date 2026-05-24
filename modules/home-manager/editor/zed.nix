@@ -101,9 +101,6 @@
         env = {
           TERM = "alacritty";
         };
-        toolbar = {
-          title = true;
-        };
       };
     };
   };
@@ -120,7 +117,7 @@
         };
       });
 
-      nixOverriden = pkgs.zed-extensions.nix.override { zed-grammars = pkgs.zed-grammars // { nix_nix = nixGrammar; }; };
+      nixOverriden = pkgs.zed-extensions.nix.override {zed-grammars = pkgs.zed-grammars // {nix_nix = nixGrammar;};};
       nix = nixOverriden.overrideAttrs (oldAttrs: {
         src = pkgs.fetchFromGitHub {
           owner = "sebb3";
