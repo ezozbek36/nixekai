@@ -1,21 +1,29 @@
-{...}: {
+{lib, ...}: {
   nix = {
     distributedBuilds = true;
     settings = {
       builders-use-substitutes = true;
+      system-features = lib.mkForce [
+        "big-parallel"
+        "kvm"
+        "nixos-test"
+        "benchmark"
+        "gccarch-alderlake"
+      ];
     };
     buildMachines = [
       {
         maxJobs = 100;
+        speedFactor = 10;
         protocol = "ssh-ng";
         system = "x86_64-linux";
         hostName = "eu.nixbuild.net";
-        supportedFeatures = ["benchmark" "big-parallel"];
+        supportedFeatures = ["benchmark" "big-parallel" "gccarch-alderlake"];
       }
       {
         maxJobs = 8;
-        speedFactor = 1;
-        protocol = "ssh";
+        speedFactor = 3;
+        protocol = "ssh-ng";
         system = "x86_64-linux";
         hostName = "ns3.oss.uzinfocom.uz";
         supportedFeatures = [
@@ -23,6 +31,7 @@
           "kvm"
           "nixos-test"
           "benchmark"
+          "gccarch-alderlake"
         ];
       }
     ];

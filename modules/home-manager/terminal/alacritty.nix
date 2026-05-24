@@ -1,4 +1,4 @@
-_: {
+{lib, ...}: {
   programs.alacritty = {
     enable = true;
     settings = {
@@ -8,6 +8,7 @@ _: {
       window = {
         decorations = "full";
         dynamic_title = true;
+        opacity = lib.mkForce 0.8;
       };
       cursor = {
         style = {

@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   programs.vscode = {
-    enable = true;
-    package = pkgs.unstable.vscode;
+    enable = false;
     profiles.default = {
       enableExtensionUpdateCheck = false;
       extensions = with pkgs.vscode-extensions; [
@@ -21,7 +20,7 @@
         "terminal.integrated.enableImages" = true;
         "terminal.integrated.gpuAcceleration" = "on";
         "update.mode" = "start";
-        "window.dialogStyle" = "native";
+        "window.dialogStyle" = "custom";
       };
     };
   };

@@ -8,7 +8,7 @@
       appindicator
       dash-to-dock
       blur-my-shell
-      pkgs.unstable.gnomeExtensions.tiling-shell
+      tiling-shell
     ]
     ++ [copyous];
 in {

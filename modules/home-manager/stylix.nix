@@ -15,6 +15,10 @@
     targets = {
       btop.enable = true;
       gnome-text-editor.enable = true;
+      zed = {
+        enable = true;
+        fonts.enable = false;
+      };
       alacritty = {
         enable = true;
         fonts.enable = false;

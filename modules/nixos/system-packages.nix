@@ -9,6 +9,5 @@
     pciutils
     usbutils
     lm_sensors
-    (nvtopPackages.nvidia.override {intel = true;})
   ];
 }

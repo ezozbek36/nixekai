@@ -1,4 +1,9 @@
-_: {
+{...}: {
+  programs.gh = {
+    enable = true;
+    enableGitCredentialHelper = true;
+  };
+
   programs.git = {
     enable = true;
     settings = {

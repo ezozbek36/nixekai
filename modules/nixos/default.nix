@@ -17,5 +17,6 @@
     ./sops.nix
     ./ssh.nix
     ./distributed-build.nix
+    ./tty.nix
   ];
 }

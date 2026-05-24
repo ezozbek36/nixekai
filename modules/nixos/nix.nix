@@ -3,10 +3,10 @@
     package = pkgs.lixPackageSets.stable.lix;
 
     settings = {
-      trusted-users = ["root" "ezozbek"];
+      trusted-users = ["ezozbek"];
 
-      experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
+      experimental-features = ["nix-command" "flakes"];
 
       substituters = ["https://nix-community.cachix.org" "https://cuda-maintainers.cachix.org" "https://attic.xuyh0120.win/lantian"];
       trusted-public-keys = [

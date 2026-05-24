@@ -1,5 +1,6 @@
 {pkgs, ...}: {
-  home.packages = with pkgs.unstable; [
+  home.packages = with pkgs; [
     jetbrains.rust-rover
+    jetbrains.clion
   ];
 }
