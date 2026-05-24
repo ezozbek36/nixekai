@@ -95,11 +95,6 @@
           modules = [
             ({...}: {
               nixpkgs.config.allowUnfree = true;
-              # nixpkgs.hostPlatform = {
-              #   gcc.arch = "alderlake";
-              #   gcc.tune = "alderlake";
-              #   system = "x86_64-linux";
-              # };
               nixpkgs.overlays = [
                 zed-extensions.overlays.default
                 (import ./overlays/alacritty.nix)

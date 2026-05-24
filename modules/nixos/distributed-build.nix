@@ -1,15 +1,8 @@
-{lib, ...}: {
+{...}: {
   nix = {
     distributedBuilds = true;
     settings = {
       builders-use-substitutes = true;
-      system-features = lib.mkForce [
-        "big-parallel"
-        "kvm"
-        "nixos-test"
-        "benchmark"
-        "gccarch-alderlake"
-      ];
     };
     buildMachines = [
       {
@@ -18,7 +11,7 @@
         protocol = "ssh-ng";
         system = "x86_64-linux";
         hostName = "eu.nixbuild.net";
-        supportedFeatures = ["benchmark" "big-parallel" "gccarch-alderlake"];
+        supportedFeatures = ["benchmark" "big-parallel"];
       }
       {
         maxJobs = 8;
@@ -31,7 +24,6 @@
           "kvm"
           "nixos-test"
           "benchmark"
-          "gccarch-alderlake"
         ];
       }
     ];
