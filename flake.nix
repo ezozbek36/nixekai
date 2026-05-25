@@ -93,29 +93,24 @@
         nixosConfigurations.swift-sfx14-71g = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
           modules = [
-            ({...}: {
-              nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [
-                zed-extensions.overlays.default
-                (import ./overlays/alacritty.nix)
-                nix-cachyos-kernel.overlays.pinned
-                mac-style-plymouth.overlays.default
-                (import ./overlays/spotify-patch.nix {})
-                (final: prev: {
-                  tuigreet = inputs.tuigreet.packages."x86_64-linux".default;
-                  zed-editor = prev.zed-editor.overrideAttrs (oldAttrs: {
-                    doCheck = false;
-
-                    nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [final.mold];
-
-                    env =
-                      (oldAttrs.env or {})
-                      // {
-                        RUSTFLAGS = "-C target-cpu=alderlake -C opt-level=3 -C codegen-units=1 -C link-arg=-fuse-ld=mold";
-                      };
-                  });
-                })
-              ];
+            ({lib, ...}: {
+              nixpkgs.overlays =
+                [
+                  zed-extensions.overlays.default
+                  nix-cachyos-kernel.overlays.pinned
+                  mac-style-plymouth.overlays.default
+                  (final: prev: {
+                    tuigreet = inputs.tuigreet.packages."x86_64-linux".default;
+                  })
+                ]
+                ++ (import ./overlays);
+              nixpkgs.config.allowUnfreePredicate = pkg: let
+                isFirmware =
+                  if pkg.meta ? sourceProvenance
+                  then builtins.elem lib.sourceTypes.binaryFirmware pkg.meta.sourceProvenance
+                  else builtins.elem (lib.getName pkg) ["facetimehd-firmware"];
+              in
+                isFirmware || builtins.elem (lib.getName pkg) ["intel-ocl" "rust-rover" "clion" "spotify" "steam" "steam-unwrapped"];
             })
 
             ./hosts/swift-sfx14-71g/configuration.nix
