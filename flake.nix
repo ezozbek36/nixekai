@@ -64,10 +64,16 @@
       url = "github:DuskSystems/nix-zed-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    uchar = {
+      url = "git+https://git.oss.uzinfocom.uz/uchar/cross?ref=refs/pull/62/head";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
     self,
+    uchar,
     stylix,
     relago,
     nixpkgs,
@@ -96,6 +102,7 @@
             ({lib, ...}: {
               nixpkgs.overlays =
                 [
+                  uchar.overlays.default
                   zed-extensions.overlays.default
                   nix-cachyos-kernel.overlays.pinned
                   mac-style-plymouth.overlays.default
@@ -104,6 +111,9 @@
                   })
                 ]
                 ++ (import ./overlays);
+              nixpkgs.config.permittedInsecurePackages = [
+                "olm-3.2.16"
+              ];
               nixpkgs.config.allowUnfreePredicate = pkg: let
                 isFirmware =
                   if pkg.meta ? sourceProvenance
@@ -125,6 +135,7 @@
                 extraSpecialArgs = {inherit inputs;};
                 users.ezozbek = import ./modules/home-manager;
                 sharedModules = [
+                  uchar.homeModules.default
                   stylix.homeModules.stylix
                   zen-browser.homeModules.beta
                   json-schema.homeModules.default
