@@ -69,6 +69,11 @@
       url = "git+https://git.oss.uzinfocom.uz/uchar/cross?ref=refs/pull/62/head";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    spicetify-nix = {
+      url = "path:/home/ezozbek/OpenSource/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -82,6 +87,7 @@
     json-schema,
     flake-parts,
     home-manager,
+    spicetify-nix,
     zed-extensions,
     nix-cachyos-kernel,
     mac-style-plymouth,
@@ -103,6 +109,7 @@
               nixpkgs.overlays =
                 [
                   uchar.overlays.default
+                  spicetify-nix.overlays.default
                   zed-extensions.overlays.default
                   nix-cachyos-kernel.overlays.pinned
                   mac-style-plymouth.overlays.default
@@ -140,6 +147,7 @@
                   zen-browser.homeModules.beta
                   json-schema.homeModules.default
                   zed-extensions.homeManagerModules.default
+                  spicetify-nix.homeManagerModules.spicetify
                 ];
               };
             }

@@ -1,14 +1,14 @@
 {pkgs, ...}: {
-  home.packages = [
-    (pkgs.symlinkJoin
-      {
-        name = "spotify";
-        paths = [pkgs.spotify];
-        buildInputs = [pkgs.makeWrapper];
-        postBuild = ''
-          wrapProgram $out/bin/spotify \
-            --add-flags "--enable-features=UseOzonePlatform --ozone-platform=x11"
-        '';
-      })
-  ];
+  programs.spicetify = {
+    enable = true;
+    wayland = false;
+    windowManagerPatch = true;
+    enabledCustomApps = with pkgs.spicetify.apps; [lyricsPlus];
+    enabledExtensions = with pkgs.spicetify.extensions; [
+      adblockify
+      hidePodcasts
+      aiBandBlocker
+      spotifyGenres
+    ];
+  };
 }

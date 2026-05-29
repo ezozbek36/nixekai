@@ -14,6 +14,7 @@
 
     targets = {
       btop.enable = true;
+      spicetify.enable = true;
       gnome-text-editor.enable = true;
       zed = {
         enable = true;
