@@ -27,7 +27,7 @@ let
     if hasNixd && flake.nixd ? nixpkgs
     then import flake.nixd.nixpkgs {}
     else if hasInputs
-    then import flake.inputs.nixpkgs {}
+    then (first flake.nixosConfigurations).pkgs
     else import <nixpkgs> {};
 
   # --- Helpers ---
@@ -46,14 +46,13 @@ let
 
   hmOpts = let
     fromNixos = builtins.mapAttrs (_: safeHmOptions) nixosOpts;
-    merged = fromNixos;
   in
     removeAttrs (builtins.listToAttrs (
       builtins.filter (x: x.value != null) (
         map (name: {
           inherit name;
-          value = merged.${name};
-        }) (builtins.attrNames merged)
+          value = fromNixos.${name};
+        }) (builtins.attrNames fromNixos)
       )
     )) [];
 
