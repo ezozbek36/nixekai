@@ -1,0 +1,3 @@
+{...}: {
+  programs.uchar.enable = true;
+}

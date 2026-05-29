@@ -6,8 +6,6 @@
     preferXdgDirectories = true;
   };
 
-  programs.uchar.enable = true;
-
   imports = [
     ./stylix.nix
     ./shell
