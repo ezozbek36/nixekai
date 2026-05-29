@@ -9,6 +9,8 @@
 
     extensions = ["xml" "toml" "just" "meson" "crates-lsp" "git-firefly" "material-icon-theme"];
 
+    extraPackages = with pkgs; [nixd alejandra];
+
     userSettings = {
       disable_ai = true;
       auto_update = false;
