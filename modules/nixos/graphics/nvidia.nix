@@ -1,4 +1,4 @@
-{config, ...}: {
+{...}: {
   hardware.nvidia = {
     modesetting.enable = true;
 
@@ -7,8 +7,8 @@
     powerManagement.finegrained = true;
 
     open = true;
+    branch = "stable";
     nvidiaSettings = false;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
 
     prime = {
       offload = {

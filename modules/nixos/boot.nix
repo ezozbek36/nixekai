@@ -26,9 +26,7 @@
       "quiet"
       "udev.log_level=3"
       "systemd.show_status=auto"
-      "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "intel_pstate=active"
-      "nvidia_drm.fbdev=0"
     ];
 
     kernel.sysctl = {
