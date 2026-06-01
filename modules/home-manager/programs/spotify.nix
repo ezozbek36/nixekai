@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   programs.spicetify = {
     enable = true;
-    wayland = false;
+    wayland = true;
     windowManagerPatch = true;
     enabledCustomApps = with pkgs.spicetify.apps; [lyricsPlus];
     enabledExtensions = with pkgs.spicetify.extensions; [
