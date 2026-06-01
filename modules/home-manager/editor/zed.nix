@@ -9,7 +9,7 @@
 
     extensions = ["xml" "toml" "just" "meson" "crates-lsp" "git-firefly" "material-icon-theme"];
 
-    extraPackages = with pkgs; [nixd alejandra];
+    extraPackages = with pkgs; [nixd alejandra lua-language-server];
 
     userSettings = {
       disable_ai = true;
@@ -86,6 +86,11 @@
             path = lib.getExe pkgs.package-version-server;
           };
         };
+        lua-language-server = {
+          binary = {
+            ignore_system_version = false;
+          };
+        };
       };
 
       git = {
@@ -128,6 +133,7 @@
           sha256 = "sha256-ukS2q0nt8kG5xMc+WiBHZMu66mkBjt9iAnj9gzlA9JQ=";
         };
       });
-    in [nix];
+    in
+      with pkgs.zed-extensions; [lua] ++ [nix];
   };
 }
