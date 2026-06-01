@@ -7,13 +7,16 @@
     '';
   };
 
+  environment.systemPackages = with pkgs; [resources];
+
   environment = {
     gnome.excludePackages = with pkgs; [
-      gnome-console
+      totem
       epiphany
       gnome-tour
       gnome-music
-      totem
+      gnome-console
+      gnome-system-monitor
     ];
 
     variables = {
