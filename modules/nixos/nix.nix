@@ -5,11 +5,8 @@
     settings = {
       trusted-users = ["ezozbek"];
 
-      use-cgroups = true;
-      auto-allocate-uids = true;
       auto-optimise-store = true;
-      extra-system-features = ["uid-range"];
-      experimental-features = ["pipe-operator" "auto-allocate-uids" "nix-command" "cgroups" "flakes"];
+      experimental-features = ["pipe-operator" "nix-command" "flakes"];
 
       substituters = ["https://nix-community.cachix.org" "https://cuda-maintainers.cachix.org" "https://attic.xuyh0120.win/lantian"];
       trusted-public-keys = [
