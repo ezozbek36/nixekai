@@ -1,4 +1,10 @@
-{...}: {
+{
+  pkgs,
+  config,
+  ...
+}: let
+  publicSshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDtUq3n5g7jBJtYCZ4jrePM21zo7FniQIpQLDpP9yqAe ezozbek@nixos";
+in {
   programs.gh = {
     enable = true;
     gitCredentialHelper.enable = true;
@@ -8,18 +14,24 @@
     enable = true;
     signing = {
       format = "ssh";
+      key = publicSshKey;
       signByDefault = true;
-      key = "~/.ssh/id_ed25519.pub";
     };
     settings = {
       init.defaultBranch = "main";
-      credential = {
-        "https://github.com".helper = ["!gh auth git-credential"];
-        "https://gist.github.com".helper = ["!gh auth git-credential"];
-      };
       user = {
         name = "Ezozbek";
         email = "git@ezozbek.dev";
+      };
+      gpg = {
+        ssh = {
+          allowedSignersFile =
+            ''
+              ${config.programs.git.settings.user.email} namespaces="git" ${publicSshKey}
+            ''
+            |> pkgs.writeText "git_allowed_signers"
+            |> toString;
+        };
       };
     };
   };
