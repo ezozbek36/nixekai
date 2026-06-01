@@ -8,7 +8,6 @@
       appindicator
       dash-to-dock
       blur-my-shell
-      tiling-shell
     ]
     ++ [copyous];
 in {
