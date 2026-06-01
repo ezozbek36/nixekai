@@ -74,6 +74,16 @@
       url = "path:/home/ezozbek/OpenSource/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprland = {
+      url = "github:hyprwm/Hyprland/v0.55.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprspace = {
+      url = "github:KZDKM/Hyprspace";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = inputs @ {
@@ -82,6 +92,7 @@
     stylix,
     relago,
     nixpkgs,
+    hyprland,
     sops-nix,
     zen-browser,
     json-schema,
@@ -113,8 +124,16 @@
                   zed-extensions.overlays.default
                   nix-cachyos-kernel.overlays.pinned
                   mac-style-plymouth.overlays.default
-                  (final: prev: {
-                    tuigreet = inputs.tuigreet.packages."x86_64-linux".default;
+                  hyprland.overlays.hyprland-packages
+                  (final: prev: let
+                    system = prev.stdenv.hostPlatform.system;
+                  in {
+                    tuigreet = inputs.tuigreet.packages.${system}.default;
+                    hyprlandPlugins =
+                      (prev.hyprlandPlugins or {})
+                      // {
+                        hyprspace = inputs.hyprspace.packages.${system}.default;
+                      };
                   })
                 ]
                 ++ (import ./overlays);

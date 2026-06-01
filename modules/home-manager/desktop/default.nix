@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./gnome
-    ./hyprland.nix
+    ./hyprland
   ];
 
   xdg.portal = {
@@ -17,6 +17,7 @@
 
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
     ];
   };
 }
