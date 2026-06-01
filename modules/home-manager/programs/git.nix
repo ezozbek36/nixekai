@@ -6,9 +6,12 @@
 
   programs.git = {
     enable = true;
+    signing = {
+      format = "ssh";
+      signByDefault = true;
+      key = "~/.ssh/id_ed25519.pub";
+    };
     settings = {
-      gpg.format = "ssh";
-      commit.gpgSign = true;
       init.defaultBranch = "main";
       credential = {
         "https://github.com".helper = ["!gh auth git-credential"];
@@ -17,7 +20,6 @@
       user = {
         name = "Ezozbek";
         email = "git@ezozbek.dev";
-        signingkey = "~/.ssh/id_ed25519.pub";
       };
     };
   };
