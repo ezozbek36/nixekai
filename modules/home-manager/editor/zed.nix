@@ -9,7 +9,7 @@
 
     extensions = ["xml" "toml" "just" "meson" "crates-lsp" "git-firefly" "material-icon-theme"];
 
-    extraPackages = with pkgs; [nixd alejandra lua-language-server];
+    extraPackages = with pkgs; [nixd ruff alejandra lua-language-server];
 
     userSettings = {
       disable_ai = true;
@@ -87,6 +87,11 @@
           };
         };
         lua-language-server = {
+          binary = {
+            ignore_system_version = false;
+          };
+        };
+        ruff = {
           binary = {
             ignore_system_version = false;
           };
