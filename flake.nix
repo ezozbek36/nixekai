@@ -6,6 +6,11 @@
 
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
+    disko = {
+      url = "github:nix-community/disko/v1.13.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -89,6 +94,7 @@
   outputs = inputs @ {
     self,
     uchar,
+    disko,
     stylix,
     relago,
     nixpkgs,
@@ -153,6 +159,8 @@
 
             sops-nix.nixosModules.sops
 
+            ./hosts/gigabyte-z790/configuration.nix
+
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -175,6 +183,24 @@
             # {
             #   services.relago.enable = true;
             # }
+          ];
+        };
+
+        nixosConfigurations.gigabyte-z790 = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs;};
+          modules = [
+            disko.nixosModules.default
+            ./hosts/gigabyte-z790/configuration.nix
+            {hardware.facter.reportPath = ./hosts/gigabyte-z790/facter.json;}
+            {
+              nixpkgs = {
+                hostPlatform.system = "x86_64-linux";
+                hostPlatform.gcc = {
+                  arch = "raptorlake";
+                  tune = "raptorlake";
+                };
+              };
+            }
           ];
         };
       };
