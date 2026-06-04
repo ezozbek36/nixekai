@@ -10,10 +10,12 @@ args @ {
     configType = "lua";
     systemd = {
       enable = true;
+      extraCommands = [];
       variables = ["--all"];
+      enableXdgAutostart = true;
     };
 
-    plugins = with pkgs.hyprlandPlugins; [hyprspace];
+    plugins = with pkgs.hyprlandPlugins; [];
 
     settings = {
       mod = {_var = "SUPER";};
@@ -22,7 +24,7 @@ args @ {
       config = {
         general = {
           gaps_in = 4;
-          gaps_out = 6;
+          gaps_out = 8;
           border_size = 0;
           layout = "dwindle";
           resize_on_border = true;
@@ -30,21 +32,21 @@ args @ {
 
         decoration = {
           rounding = 8;
-          active_opacity = 0.85;
-          inactive_opacity = 0.6;
+          active_opacity = 0.96;
           fullscreen_opacity = 1;
+          inactive_opacity = 0.94;
           border_part_of_window = false;
 
           blur = {
             size = 4;
-            noise = 0;
             passes = 3;
             xray = false;
+            noise = 0.00;
             popups = true;
             enabled = true;
             ignore_opacity = true;
+            vibrancy_darkness = 0.4;
             new_optimizations = true;
-            vibrancy_darkness = 0.40;
             popups_ignorealpha = 0.20;
           };
         };
@@ -53,6 +55,7 @@ args @ {
           sensitivity = 1;
           touchpad = {
             natural_scroll = true;
+            clickfinger_behavior = true;
           };
         };
 
@@ -79,23 +82,6 @@ args @ {
       env = [
         {
           _args = ["AQ_DRM_DEVICES" "/dev/dri/card1:/dev/dri/card0"];
-        }
-      ];
-
-      on = [
-        {
-          _args = [
-            "hyprland.start"
-            (
-              lib.generators.mkLuaInline
-              # lua
-              ''
-                function()
-                    hl.exec_cmd("noctalia-shell")
-                end
-              ''
-            )
-          ];
         }
       ];
     };

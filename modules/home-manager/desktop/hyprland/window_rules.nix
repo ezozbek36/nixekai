@@ -1,7 +1,12 @@
 [
   {
-    match.class = "*";
+    match.class = ".*$";
     suppress_event = "maximize";
+  }
+  {
+    match.class = "Zen Browser";
+    no_blur = true;
+    opacity = 1;
   }
   {
     opacity = 0;

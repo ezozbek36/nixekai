@@ -1,7 +1,7 @@
 {lib, ...}: [
   {
     _args = [
-      ''CTRL + T''
+      (lib.generators.mkLuaInline ''mod .. " + T"'')
       (lib.generators.mkLuaInline ''hl.dsp.exec_cmd(terminal)'')
     ];
   }
