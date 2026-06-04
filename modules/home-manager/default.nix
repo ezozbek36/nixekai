@@ -2,8 +2,8 @@
 {...}: {
   home = {
     username = "ezozbek";
-    homeDirectory = "/home/ezozbek";
     preferXdgDirectories = true;
+    homeDirectory = "/home/ezozbek";
   };
 
   imports = [
