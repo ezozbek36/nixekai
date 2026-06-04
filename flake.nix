@@ -2,7 +2,7 @@
   description = "NixOS configuration with Home Manager";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
@@ -12,12 +12,12 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     stylix = {
-      url = "github:nix-community/stylix";
+      url = "github:nix-community/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -71,7 +71,7 @@
     };
 
     uchar = {
-      url = "git+https://git.oss.uzinfocom.uz/uchar/cross?ref=refs/pull/62/head";
+      url = "git+https://git.oss.uzinfocom.uz/uchar/cross?ref=uchar/app/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -159,8 +159,6 @@
 
             sops-nix.nixosModules.sops
 
-            ./hosts/gigabyte-z790/configuration.nix
-
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -198,6 +196,12 @@
                 hostPlatform.gcc = {
                   arch = "raptorlake";
                   tune = "raptorlake";
+                };
+                config = {
+                  allowVariants = false;
+                  strictDepsByDefault = true;
+                  fetchedSourceNameDefault = "full";
+                  enableParallelBuildingByDefault = true;
                 };
               };
             }
