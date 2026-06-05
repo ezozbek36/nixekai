@@ -118,10 +118,12 @@
         devShells.default = import ./shell.nix self {inherit pkgs;};
       };
       flake = {
-        # NixOS configuration
-        nixosConfigurations.swift-sfx14-71g = nixpkgs.lib.nixosSystem {
+        nixosConfigurations.ayato = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
           modules = [
+            {
+              networking.hostName = "ayato";
+            }
             ({lib, ...}: {
               nixpkgs.overlays =
                 [
@@ -155,7 +157,7 @@
                 isFirmware || builtins.elem (lib.getName pkg) ["intel-ocl" "rust-rover" "clion" "spotify" "steam" "steam-unwrapped"];
             })
 
-            ./hosts/swift-sfx14-71g/configuration.nix
+            ./hosts/ayato/configuration.nix
 
             sops-nix.nixosModules.sops
 
@@ -183,13 +185,12 @@
             # }
           ];
         };
-
-        nixosConfigurations.gigabyte-z790 = nixpkgs.lib.nixosSystem {
+        nixosConfigurations.noroi = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
           modules = [
             disko.nixosModules.default
-            ./hosts/gigabyte-z790/configuration.nix
-            {hardware.facter.reportPath = ./hosts/gigabyte-z790/facter.json;}
+            ./hosts/noroi/configuration.nix
+            {hardware.facter.reportPath = ./hosts/noroi/facter.json;}
             {
               nixpkgs = {
                 hostPlatform.system = "x86_64-linux";
