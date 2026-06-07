@@ -178,11 +178,6 @@
                 ];
               };
             }
-
-            # relago.nixosModules.default
-            # {
-            #   services.relago.enable = true;
-            # }
           ];
         };
         nixosConfigurations.noroi = nixpkgs.lib.nixosSystem {
