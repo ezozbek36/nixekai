@@ -39,6 +39,20 @@
           "kvm"
         ];
       }
+      {
+        maxJobs = 24;
+        speedFactor = 2;
+        protocol = "ssh-ng";
+        system = "x86_64-linux";
+        hostName = "10.10.1.223";
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+          "gccarch-x86-64-v3"
+        ];
+      }
     ];
   };
 }

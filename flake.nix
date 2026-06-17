@@ -54,7 +54,7 @@
     };
 
     relago = {
-      url = "github:xinux-org/relago";
+      url = "git+ssh://gitea@git.oss.uzinfocom.uz/xinux/relago?shallow=1";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
@@ -71,8 +71,9 @@
     };
 
     uchar = {
-      url = "git+https://git.oss.uzinfocom.uz/uchar/cross?ref=uchar/app/latest";
+      url = "git+ssh://gitea@git.oss.uzinfocom.uz/uchar/cross?shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
     };
 
     spicetify-nix = {
@@ -178,6 +179,11 @@
                 ];
               };
             }
+
+            relago.nixosModules.relago
+            {
+              services.relago.enable = true;
+            }
           ];
         };
         nixosConfigurations.noroi = nixpkgs.lib.nixosSystem {
@@ -188,16 +194,13 @@
             {hardware.facter.reportPath = ./hosts/noroi/facter.json;}
             {
               nixpkgs = {
+                overlays = [
+                  nix-cachyos-kernel.overlays.pinned
+                ];
                 hostPlatform.system = "x86_64-linux";
                 hostPlatform.gcc = {
-                  arch = "raptorlake";
-                  tune = "raptorlake";
-                };
-                config = {
-                  allowVariants = false;
-                  strictDepsByDefault = true;
-                  fetchedSourceNameDefault = "full";
-                  enableParallelBuildingByDefault = true;
+                  arch = "x86-64-v3";
+                  tune = "generic";
                 };
               };
             }

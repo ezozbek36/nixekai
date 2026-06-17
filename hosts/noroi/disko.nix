@@ -20,49 +20,25 @@
             root = {
               size = "100%";
               content = {
-                type = "zfs";
-                pool = "zroot";
+                type = "btrfs";
+                extraArgs = ["-f"];
+                subvolumes = {
+                  "/rootfs" = {
+                    mountpoint = "/";
+                  };
+                  "/home" = {
+                    mountOptions = ["compress=zstd"];
+                    mountpoint = "/home";
+                  };
+                  "/nix" = {
+                    mountOptions = [
+                      "compress=zstd"
+                      "noatime"
+                    ];
+                    mountpoint = "/nix";
+                  };
+                };
               };
-            };
-          };
-        };
-      };
-    };
-
-    zpool = {
-      zroot = {
-        type = "zpool";
-        options = {
-          ashift = "12";
-          autotrim = "on";
-        };
-        rootFsOptions = {
-          xattr = "sa";
-          canmount = "off";
-          dnodesize = "auto";
-          mountpoint = "none";
-          acltype = "posixacl";
-          compression = "zstd";
-          normalization = "formD";
-          "com.sun:auto-snapshot" = "false";
-        };
-        datasets = {
-          root = {
-            type = "zfs_fs";
-            mountpoint = "/";
-            options.mountpoint = "legacy";
-          };
-          home = {
-            type = "zfs_fs";
-            mountpoint = "/home";
-            options.mountpoint = "legacy";
-          };
-          nix = {
-            type = "zfs_fs";
-            mountpoint = "/nix";
-            options = {
-              mountpoint = "legacy";
-              atime = "off";
             };
           };
         };

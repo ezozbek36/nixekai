@@ -7,11 +7,15 @@
       };
       uzinfocom = {
         hostNames = ["ns3.oss.uzinfocom.uz"];
-        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINNOqMshb7i/Oo08Y5XvgExuyTLlbV27roxU+pkF8n9l";
+        publicKey = "ns3.oss.uzinfocom.uz ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINNOqMshb7i/Oo08Y5XvgExuyTLlbV27roxU+pkF8n9l";
       };
       kolyma = {
         hostNames = ["ns3.kolyma.uz"];
-        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEX2HbpS/5iXk+Huq/Rw0KkgO19yIabrd/k+hf9g5L+s";
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIALR9Xxei/ghvXwIfeFF4K0rsVQr7EP3ygUtPm26WCLp";
+      };
+      noroi = {
+        hostNames = ["10.10.1.223"];
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbGxcfZflt2/DSx/24eJP0DvA5NoexqsExLDzc9hs84";
       };
     };
 
@@ -31,6 +35,11 @@
         User builder
         Port 22
         IdentityFile ${config.users.users.ezozbek.home}/.ssh/my-nixbuild-key
+
+      Host 10.10.1.223
+        User builder
+        Port 22
+        IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519
     '';
   };
 }
