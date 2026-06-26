@@ -4,7 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+    nix-cachyos-kernel = {
+      url = "github:xddxdd/nix-cachyos-kernel/release";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     disko = {
       url = "github:nix-community/disko/v1.13.0";
@@ -117,6 +120,13 @@
         formatter = pkgs.alejandra;
 
         devShells.default = import ./shell.nix self {inherit pkgs;};
+        devShells.kernelConfig = pkgs.mkShell {
+          packages = with pkgs; [
+            gcc
+            flex
+            bison
+          ];
+        };
       };
       flake = {
         nixosConfigurations.ayato = nixpkgs.lib.nixosSystem {
@@ -131,7 +141,7 @@
                   uchar.overlays.default
                   spicetify-nix.overlays.default
                   zed-extensions.overlays.default
-                  nix-cachyos-kernel.overlays.pinned
+                  nix-cachyos-kernel.overlays.default
                   mac-style-plymouth.overlays.default
                   hyprland.overlays.hyprland-packages
                   (final: prev: let
@@ -143,6 +153,10 @@
                       // {
                         hyprspace = inputs.hyprspace.packages.${system}.default;
                       };
+
+                    assimp = prev.assimp.overrideAttrs (old: {
+                      NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -ffp-contract=on";
+                    });
                   })
                 ]
                 ++ (import ./overlays);
@@ -156,6 +170,11 @@
                   else builtins.elem (lib.getName pkg) ["facetimehd-firmware"];
               in
                 isFirmware || builtins.elem (lib.getName pkg) ["intel-ocl" "rust-rover" "clion" "spotify" "steam" "steam-unwrapped"];
+              nixpkgs.hostPlatform.system = "x86_64-linux";
+              nixpkgs.hostPlatform.gcc = {
+                arch = "x86-64-v3";
+                tune = "generic";
+              };
             })
 
             ./hosts/ayato/configuration.nix
@@ -195,7 +214,7 @@
             {
               nixpkgs = {
                 overlays = [
-                  nix-cachyos-kernel.overlays.pinned
+                  nix-cachyos-kernel.overlays.default
                 ];
                 hostPlatform.system = "x86_64-linux";
                 hostPlatform.gcc = {
@@ -208,4 +227,13 @@
         };
       };
     };
+
+  nixConfig = {
+    extra-substituters = [
+      "ssh-ng://builder@10.10.1.223"
+    ];
+    extra-trusted-public-keys = [
+      "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="
+    ];
+  };
 }

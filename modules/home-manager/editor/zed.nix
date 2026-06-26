@@ -25,6 +25,10 @@
       buffer_font_size = 16.0;
       buffer_font_family = "JetBrainsMonoNL Nerd Font Mono";
 
+      format_on_save = "off";
+      ensure_final_newline_on_save = false;
+      remove_trailing_whitespace_on_save = false;
+
       git_panel = {
         dock = "left";
         tree_view = true;

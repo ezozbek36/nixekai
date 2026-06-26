@@ -20,8 +20,6 @@
       };
     };
 
-    kernelPackages = pkgs.linuxKernel.packagesFor pkgs.cachyosKernels.linux-cachyos-lts-lto-x86_64-v3;
-
     kernelParams = [
       "quiet"
       "udev.log_level=3"

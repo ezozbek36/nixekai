@@ -14,7 +14,7 @@
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIALR9Xxei/ghvXwIfeFF4K0rsVQr7EP3ygUtPm26WCLp";
       };
       noroi = {
-        hostNames = ["10.10.1.223"];
+        hostNames = ["10.10.1.182" "10.10.1.223"];
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbGxcfZflt2/DSx/24eJP0DvA5NoexqsExLDzc9hs84";
       };
     };

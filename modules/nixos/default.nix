@@ -18,5 +18,6 @@
     ./ssh.nix
     ./distributed-build.nix
     ./tty.nix
+    ./kernel.nix
   ];
 }

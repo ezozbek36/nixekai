@@ -15,6 +15,7 @@
     ./editor
     ./services
     ./fonts.nix
+    ./wakatime
   ];
 
   # Home Manager Version
