@@ -44,7 +44,7 @@
         speedFactor = 2;
         protocol = "ssh-ng";
         system = "x86_64-linux";
-        hostName = "10.10.1.223";
+        hostName = "10.10.0.227";
         supportedFeatures = [
           "nixos-test"
           "benchmark"

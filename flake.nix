@@ -2,11 +2,17 @@
   description = "NixOS configuration with Home Manager";
 
   inputs = {
+    systems.url = "github:nix-systems/x86_64-linux";
+
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     nix-cachyos-kernel = {
-      url = "github:xddxdd/nix-cachyos-kernel/release";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:xddxdd/nix-cachyos-kernel";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        flake-compat.follows = "flake-compat";
+      };
     };
 
     disko = {
@@ -21,7 +27,11 @@
 
     stylix = {
       url = "github:nix-community/stylix/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        flake-parts.follows = "flake-parts";
+      };
     };
 
     sops-nix = {
@@ -42,24 +52,48 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
+
+    flake-compat = {
+      url = "github:NixOS/flake-compat";
+      flake = false;
+    };
 
     json-schema = {
       url = "github:ezozbek36/nix-json-schema";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
     };
 
     mac-style-plymouth = {
       url = "github:SergioRibera/s4rchiso-plymouth-theme";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
     };
 
     relago = {
       url = "git+ssh://gitea@git.oss.uzinfocom.uz/xinux/relago?shallow=1";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        flake-utils.follows = "flake-utils";
       };
     };
 
@@ -68,30 +102,51 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     zed-extensions = {
       url = "github:DuskSystems/nix-zed-extensions";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "rust-overlay";
+      };
     };
 
     uchar = {
       url = "git+ssh://gitea@git.oss.uzinfocom.uz/uchar/cross?shallow=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        rust-overlay.follows = "rust-overlay";
+      };
     };
 
     spicetify-nix = {
-      url = "path:/home/ezozbek/OpenSource/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:Gerg-L/spicetify-nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+      };
     };
 
     hyprland = {
       url = "github:hyprwm/Hyprland/v0.55.2";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        pre-commit-hooks.inputs.flake-compat.follows = "flake-compat";
+      };
     };
 
     hyprspace = {
       url = "github:KZDKM/Hyprspace";
-      inputs.hyprland.follows = "hyprland";
+      inputs = {
+        systems.follows = "systems";
+        hyprland.follows = "hyprland";
+      };
     };
   };
 
@@ -115,7 +170,7 @@
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["x86_64-linux"];
+      systems = import inputs.systems;
       perSystem = {pkgs, ...}: {
         formatter = pkgs.alejandra;
 
@@ -230,7 +285,7 @@
 
   nixConfig = {
     extra-substituters = [
-      "ssh-ng://builder@10.10.1.223"
+      "ssh-ng://builder@10.10.0.227"
     ];
     extra-trusted-public-keys = [
       "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="

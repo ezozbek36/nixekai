@@ -14,7 +14,7 @@
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIALR9Xxei/ghvXwIfeFF4K0rsVQr7EP3ygUtPm26WCLp";
       };
       noroi = {
-        hostNames = ["10.10.1.182" "10.10.1.223"];
+        hostNames = ["10.10.0.181" "10.10.0.227"];
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbGxcfZflt2/DSx/24eJP0DvA5NoexqsExLDzc9hs84";
       };
     };
@@ -36,7 +36,12 @@
         Port 22
         IdentityFile ${config.users.users.ezozbek.home}/.ssh/my-nixbuild-key
 
-      Host 10.10.1.223
+      Host 10.10.0.181
+        User builder
+        Port 22
+        IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519
+
+      Host 10.10.0.227
         User builder
         Port 22
         IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519
