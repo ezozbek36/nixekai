@@ -943,6 +943,9 @@
     },
     "spicetify-nix": {
       "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -951,15 +954,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1782898510,
-        "narHash": "sha256-7QVN7ijsXbIBRrI9LdXfeoFktTS0I6HZya9tu6+STrs=",
-        "owner": "Gerg-L",
+        "lastModified": 1783094416,
+        "narHash": "sha256-jijveLRWYOmJsSAdb2WiSggPmqfiMLSCkO3ujGMU+fo=",
+        "owner": "ezozbek36",
         "repo": "spicetify-nix",
-        "rev": "9cabea6f5973ec01f60080ea50f54f8f6d74dc95",
+        "rev": "a6274126d3d57b9edbea342da5d64daba609af85",
         "type": "github"
       },
       "original": {
-        "owner": "Gerg-L",
+        "owner": "ezozbek36",
         "repo": "spicetify-nix",
         "type": "github"
       }
