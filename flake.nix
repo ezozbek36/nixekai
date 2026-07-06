@@ -185,6 +185,10 @@
         };
       };
       flake = {
+        nixosConfigurations.vps01 = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs;};
+          modules = [./hosts/vps01/configuration.nix];
+        };
         nixosConfigurations.ayato = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
           modules = [
@@ -225,7 +229,7 @@
                   then builtins.elem lib.sourceTypes.binaryFirmware pkg.meta.sourceProvenance
                   else builtins.elem (lib.getName pkg) ["facetimehd-firmware"];
               in
-                isFirmware || builtins.elem (lib.getName pkg) ["intel-ocl" "rust-rover" "clion" "spotify" "steam" "steam-unwrapped"];
+                isFirmware || builtins.elem (lib.getName pkg) ["nvidia-kernel-modules" "intel-ocl" "rust-rover" "clion" "spotify" "steam" "steam-unwrapped"];
               nixpkgs.hostPlatform.system = "x86_64-linux";
               nixpkgs.hostPlatform.gcc = {
                 arch = "x86-64-v3";
