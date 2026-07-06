@@ -6,8 +6,8 @@
     powerManagement.enable = true;
     powerManagement.finegrained = true;
 
-    open = true;
-    branch = "stable";
+    open = false;
+    branch = "production";
     nvidiaSettings = false;
 
     prime = {
