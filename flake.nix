@@ -6,6 +6,8 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     nix-cachyos-kernel = {
       url = "github:xddxdd/nix-cachyos-kernel";
       inputs = {
@@ -72,6 +74,14 @@
       flake = false;
     };
 
+    ez-configs = {
+      url = "path:/home/ezozbek/OpenSource/ez-configs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
     json-schema = {
       url = "github:ezozbek36/nix-json-schema";
       inputs = {
@@ -84,15 +94,6 @@
       url = "github:SergioRibera/s4rchiso-plymouth-theme";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
-    };
-
-    relago = {
-      url = "git+ssh://gitea@git.oss.uzinfocom.uz/xinux/relago?shallow=1";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
         flake-utils.follows = "flake-utils";
       };
     };
@@ -111,15 +112,6 @@
       url = "github:DuskSystems/nix-zed-extensions";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        rust-overlay.follows = "rust-overlay";
-      };
-    };
-
-    uchar = {
-      url = "git+ssh://gitea@git.oss.uzinfocom.uz/uchar/cross?shallow=1";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
         rust-overlay.follows = "rust-overlay";
       };
     };
@@ -153,10 +145,8 @@
 
   outputs = inputs @ {
     self,
-    uchar,
     disko,
     stylix,
-    relago,
     nixpkgs,
     hyprland,
     sops-nix,
@@ -172,6 +162,7 @@
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = import inputs.systems;
+      # imports = [inputs.ez-configs.flakeModule];
       perSystem = {pkgs, ...}: {
         formatter = pkgs.alejandra;
 
@@ -184,6 +175,27 @@
           ];
         };
       };
+
+      # ezConfigs = {
+      #   root = ./.;
+      #   globalArgs = { inherit inputs; };
+
+      #   nixos = {
+      #     ayato = {
+      #       arch = "x86_64";
+      #       class = "nixos"; 
+      #     };
+      #     noroi = {
+      #       arch = "x86_64";
+      #       class = "nixos"; 
+      #     };
+      #     vps01 = {
+      #       arch = "x86_64";
+      #       class = "nixos"; 
+      #     };
+      #   };
+      # };
+
       flake = {
         nixosConfigurations.vps01 = nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
@@ -195,10 +207,9 @@
             {
               networking.hostName = "ayato";
             }
-            ({lib, ...}: {
+            ({lib, config, ...}: {
               nixpkgs.overlays =
                 [
-                  uchar.overlays.default
                   spicetify-nix.overlays.default
                   zed-extensions.overlays.default
                   nix-cachyos-kernel.overlays.default
@@ -213,6 +224,11 @@
                       // {
                         hyprspace = inputs.hyprspace.packages.${system}.default;
                       };
+
+                    unstable = import inputs.nixpkgs-unstable {
+                      inherit system;
+                      config = config.nixpkgs.config;
+                    };
 
                     assimp = prev.assimp.overrideAttrs (old: {
                       NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -ffp-contract=on";
@@ -229,7 +245,7 @@
                   then builtins.elem lib.sourceTypes.binaryFirmware pkg.meta.sourceProvenance
                   else builtins.elem (lib.getName pkg) ["facetimehd-firmware"];
               in
-                isFirmware || builtins.elem (lib.getName pkg) ["nvidia-kernel-modules" "intel-ocl" "rust-rover" "clion" "spotify" "steam" "steam-unwrapped"];
+                isFirmware || builtins.elem (lib.getName pkg) ["nvidia-kernel-modules" "intel-ocl" "android-studio" "rust-rover" "clion" "spotify" "steam" "steam-unwrapped"];
               nixpkgs.hostPlatform.system = "x86_64-linux";
               nixpkgs.hostPlatform.gcc = {
                 arch = "x86-64-v3";
@@ -249,7 +265,6 @@
                 extraSpecialArgs = {inherit inputs;};
                 users.ezozbek = import ./modules/home-manager;
                 sharedModules = [
-                  uchar.homeModules.default
                   stylix.homeModules.stylix
                   zen-browser.homeModules.beta
                   json-schema.homeModules.default
@@ -257,11 +272,6 @@
                   spicetify-nix.homeManagerModules.spicetify
                 ];
               };
-            }
-
-            relago.nixosModules.relago
-            {
-              services.relago.enable = true;
             }
           ];
         };
@@ -290,7 +300,7 @@
 
   nixConfig = {
     extra-substituters = [
-      "ssh-ng://builder@10.10.0.227"
+      "ssh-ng://builder@10.10.0.183"
     ];
     extra-trusted-public-keys = [
       "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="

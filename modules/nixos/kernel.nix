@@ -14,4 +14,13 @@
   };
 in {
   boot.kernelPackages = pkgs.linuxKernel.packagesFor kernelPackage;
+  boot.kernelPatches = [
+    {
+      name = "[PATCH] KVM: x86/tdx: Do not print error message on non-present feature";
+      patch = pkgs.fetchpatch2 {
+        url = "https://lore.kernel.org/kvm/20260702043204.81741-1-jirislaby@kernel.org/raw";
+        hash = "sha256-K5bMOUbBf362FH7U7M0oeznM5fUlgf2myY8ipoYe5Tg=";
+      };
+    }
+  ];
 }

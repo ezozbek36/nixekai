@@ -19,5 +19,6 @@
     ./distributed-build.nix
     ./tty.nix
     ./kernel.nix
+    ./tailscale.nix
   ];
 }

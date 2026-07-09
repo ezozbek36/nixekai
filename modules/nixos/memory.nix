@@ -1,7 +1,11 @@
 {...}: {
   zramSwap = {
     enable = true;
-    memoryPercent = 50;
     algorithm = "zstd";
+    memoryPercent = 100;
+  };
+
+  services.swapspace = {
+    enable = true;
   };
 }

@@ -15,7 +15,7 @@
     ./editor
     ./services
     ./fonts.nix
-    ./wakatime
+    # ./wakatime
   ];
 
   # Home Manager Version
@@ -23,4 +23,6 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  services.tailscale-systray.enable = true;
 }

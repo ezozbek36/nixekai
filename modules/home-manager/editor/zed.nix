@@ -9,7 +9,7 @@
 
     extensions = ["xml" "toml" "just" "meson" "crates-lsp" "git-firefly" "material-icon-theme"];
 
-    extraPackages = with pkgs; [nixd ruff alejandra lua-language-server];
+    extraPackages = with pkgs; [alejandra];
 
     userSettings = {
       disable_ai = true;
@@ -52,12 +52,16 @@
         Nix = {
           language_servers = ["nixd" "!nil"];
         };
+        Kotlin = {
+          language_servers = ["kotlin-language-server" "detekt" "!kotlin-lsp"];
+        };
       };
 
       lsp = {
         nixd = {
           binary = {
             ignore_system_version = false;
+            path = lib.getExe pkgs.nixd;
           };
           settings = {
             diagnostic = {
@@ -93,11 +97,29 @@
         lua-language-server = {
           binary = {
             ignore_system_version = false;
+            path = lib.getExe pkgs.lua-language-server;
           };
         };
         ruff = {
           binary = {
             ignore_system_version = false;
+            path = lib.getExe pkgs.ruff;
+          };
+        };
+        detekt = {
+          binary = {
+            ignore_system_version = false;
+            path = lib.getExe pkgs.detekt;
+          };
+        };
+        kotlin-language-server = {
+          initialization_timeout = 1200000;
+          binary = {
+            ignore_system_version = false;
+            path = lib.getExe pkgs.kotlin-language-server;
+            env = {
+              JAVA_OPTS = "-Xmx8g";
+            };
           };
         };
       };
@@ -143,6 +165,6 @@
         };
       });
     in
-      with pkgs.zed-extensions; [lua] ++ [nix];
+      with pkgs.zed-extensions; [lua kotlin] ++ [nix];
   };
 }

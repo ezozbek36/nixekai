@@ -3,7 +3,6 @@
 # to /etc/nixos/configuration.nix instead.
 {
   lib,
-  pkgs,
   modulesPath,
   ...
 }: {
@@ -11,7 +10,8 @@
     [
       (modulesPath + "/profiles/qemu-guest.nix")
     ]
-    ++ [./disko.nix];
+    ++ [./disko.nix]
+    ++ [./headscale.nix];
 
   boot.initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk"];
   boot.initrd.kernelModules = [];
@@ -74,14 +74,6 @@
       }
     ];
   };
-
-  services.headscale = {
-    enable = true;
-    port = 8080;
-    address = "0.0.0.0";
-  };
-
-  environment.systemPackages = [pkgs.headscale];
 
   networking.firewall.allowedTCPPorts = [1080];
 

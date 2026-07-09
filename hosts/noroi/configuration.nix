@@ -4,11 +4,12 @@
   modulesPath,
   ...
 }: {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-    ../../modules/nixos/kernel.nix
-    ./disko.nix
-  ];
+  imports =
+    []
+    ++ [(modulesPath + "/installer/scan/not-detected.nix")]
+    ++ [./disko.nix]
+    ++ [../../modules/nixos/kernel.nix]
+    ++ [../../modules/nixos/tailscale.nix];
 
   networking.hostId = "c9f175af";
 

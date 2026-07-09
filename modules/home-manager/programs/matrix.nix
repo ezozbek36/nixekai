@@ -1,3 +1,7 @@
-{...}: {
-  programs.uchar.enable = true;
+{pkgs, ...}: {
+  programs.element-desktop = {
+    enable = true;
+  };
+
+  home.packages = with pkgs; [fractal];
 }
