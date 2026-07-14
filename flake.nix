@@ -145,19 +145,7 @@
 
   outputs = inputs @ {
     self,
-    disko,
-    stylix,
-    nixpkgs,
-    hyprland,
-    sops-nix,
-    zen-browser,
-    json-schema,
     flake-parts,
-    home-manager,
-    spicetify-nix,
-    zed-extensions,
-    nix-cachyos-kernel,
-    mac-style-plymouth,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -176,45 +164,56 @@
         };
       };
 
-      # ezConfigs = {
+      # ezConfigs = rec {
       #   root = ./.;
       #   globalArgs = { inherit inputs; };
 
       #   nixos = {
-      #     ayato = {
-      #       arch = "x86_64";
-      #       class = "nixos"; 
-      #     };
-      #     noroi = {
-      #       arch = "x86_64";
-      #       class = "nixos"; 
-      #     };
-      #     vps01 = {
-      #       arch = "x86_64";
-      #       class = "nixos"; 
+      #     configurationsDirectory = "${root}/hosts";
+      #     configurationEntryPoint = "configuration.nix";
+
+      #     hosts = {
+      #       ayato = {
+      #         arch = "x86_64";
+      #         class = "nixos";
+      #       };
+      #       noroi = {
+      #         arch = "x86_64";
+      #         class = "nixos";
+      #       };
+      #       vps01 = {
+      #         arch = "x86_64";
+      #         class = "nixos";
+      #       };
       #     };
       #   };
       # };
 
-      flake = {
-        nixosConfigurations.vps01 = nixpkgs.lib.nixosSystem {
+      flake = let
+        ezModules = {cachyos-kernel = ./nixos-modules/cachyos-kernel.nix;};
+      in {
+        nixosConfigurations.vps01 = inputs.nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
           modules = [./hosts/vps01/configuration.nix];
         };
-        nixosConfigurations.ayato = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs;};
+        nixosConfigurations.ayato = inputs.nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs ezModules;};
           modules = [
             {
               networking.hostName = "ayato";
             }
-            ({lib, config, ...}: {
+            ({
+              lib,
+              config,
+              ...
+            }: {
               nixpkgs.overlays =
                 [
-                  spicetify-nix.overlays.default
-                  zed-extensions.overlays.default
-                  nix-cachyos-kernel.overlays.default
-                  mac-style-plymouth.overlays.default
-                  hyprland.overlays.hyprland-packages
+                  inputs.spicetify-nix.overlays.default
+                  inputs.zed-extensions.overlays.default
+                  inputs.nix-cachyos-kernel.overlays.default
+                  inputs.mac-style-plymouth.overlays.default
+                  inputs.hyprland.overlays.hyprland-packages
                   (final: prev: let
                     system = prev.stdenv.hostPlatform.system;
                   in {
@@ -233,6 +232,16 @@
                     assimp = prev.assimp.overrideAttrs (old: {
                       NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -ffp-contract=on";
                     });
+
+                    pythonPackagesExtensions =
+                      prev.pythonPackagesExtensions
+                      ++ [
+                        (py-final: py-prev: {
+                          distutils = py-prev.distutils.overridePythonAttrs (oldAttrs: {
+                            disabledTestPaths = (oldAttrs.disabledTestPaths or []) ++ ["distutils/tests"];
+                          });
+                        })
+                      ];
                   })
                 ]
                 ++ (import ./overlays);
@@ -254,10 +263,12 @@
             })
 
             ./hosts/ayato/configuration.nix
+            ./modules/nixos/default.nix
+            ./nixos-modules/cachyos-kernel.nix
 
-            sops-nix.nixosModules.sops
+            inputs.sops-nix.nixosModules.sops
 
-            home-manager.nixosModules.home-manager
+            inputs.home-manager.nixosModules.home-manager
             {
               home-manager = {
                 useGlobalPkgs = true;
@@ -265,26 +276,25 @@
                 extraSpecialArgs = {inherit inputs;};
                 users.ezozbek = import ./modules/home-manager;
                 sharedModules = [
-                  stylix.homeModules.stylix
-                  zen-browser.homeModules.beta
-                  json-schema.homeModules.default
-                  zed-extensions.homeManagerModules.default
-                  spicetify-nix.homeManagerModules.spicetify
+                  inputs.stylix.homeModules.stylix
+                  inputs.zen-browser.homeModules.beta
+                  inputs.json-schema.homeModules.default
+                  inputs.zed-extensions.homeManagerModules.default
+                  inputs.spicetify-nix.homeManagerModules.spicetify
                 ];
               };
             }
           ];
         };
-        nixosConfigurations.noroi = nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs;};
+        nixosConfigurations.noroi = inputs.nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs ezModules;};
           modules = [
-            disko.nixosModules.default
             ./hosts/noroi/configuration.nix
             {hardware.facter.reportPath = ./hosts/noroi/facter.json;}
             {
               nixpkgs = {
                 overlays = [
-                  nix-cachyos-kernel.overlays.default
+                  inputs.nix-cachyos-kernel.overlays.default
                 ];
                 hostPlatform.system = "x86_64-linux";
                 hostPlatform.gcc = {
@@ -300,7 +310,7 @@
 
   nixConfig = {
     extra-substituters = [
-      "ssh-ng://builder@10.10.0.183"
+      "ssh-ng://builder@10.10.1.223"
     ];
     extra-trusted-public-keys = [
       "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="

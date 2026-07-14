@@ -1,4 +1,4 @@
-{ pkgs, ... }: let
+{pkgs, ...}: let
   ini = pkgs.formats.ini {};
 in {
   imports = [./targets.nix];

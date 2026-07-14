@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  inputs,
+  ...
+}: let
   kernelPackage = pkgs.cachyosKernels.linux-cachyos-latest.override {
     rt = true;
     bbr3 = true;
@@ -13,6 +17,10 @@
     processorOpt = "x86_64-v3";
   };
 in {
+  nixpkgs.overlays = [
+    inputs.nix-cachyos-kernel.overlays.default
+  ];
+
   boot.kernelPackages = pkgs.linuxKernel.packagesFor kernelPackage;
   boot.kernelPatches = [
     {

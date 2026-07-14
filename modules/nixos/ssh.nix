@@ -14,7 +14,7 @@
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIALR9Xxei/ghvXwIfeFF4K0rsVQr7EP3ygUtPm26WCLp";
       };
       noroi = {
-        hostNames = ["10.10.0.183" "10.10.0.229" "nixos.vpn.ezozbek.dev"];
+        hostNames = ["10.10.0.183" "10.10.1.223" "10.10.0.229" "nixos.vpn.ezozbek.dev"];
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbGxcfZflt2/DSx/24eJP0DvA5NoexqsExLDzc9hs84";
       };
       vps1 = {
@@ -45,6 +45,16 @@
         Port 22
         IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519
 
+      Host 10.10.1.223
+        User builder
+        Port 22
+        IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519
+        
+      Host nixos.vpn.ezozbek.dev
+        User builder
+        Port 22
+        IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519
+
       Host 10.10.0.229
         User builder
         Port 22
@@ -53,7 +63,7 @@
       Host vps1.ezozbek.dev
         User root
         Port 22
-        IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519 
+        IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519
     '';
   };
 }

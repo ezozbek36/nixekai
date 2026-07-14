@@ -6,7 +6,9 @@ pkgs.mkShellNoCC {
     deadnix
     alejandra
 
+    age
     sops
     ssh-to-age
+    wireguard-tools
   ];
 }

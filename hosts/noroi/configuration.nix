@@ -1,15 +1,18 @@
 {
   lib,
   pkgs,
+  ezModules,
   modulesPath,
   ...
 }: {
   imports =
     []
-    ++ [(modulesPath + "/installer/scan/not-detected.nix")]
     ++ [./disko.nix]
-    ++ [../../modules/nixos/kernel.nix]
-    ++ [../../modules/nixos/tailscale.nix];
+    ++ [./secrets.nix]
+    ++ [./wireguard.nix]
+    ++ [ezModules.cachyos-kernel]
+    ++ [(modulesPath + "/installer/scan/not-detected.nix")]
+    ++ [];
 
   networking.hostId = "c9f175af";
 
@@ -51,7 +54,7 @@
     ezozbek = {
       isNormalUser = true;
       initialPassword = "123";
-      extraGroups = ["networkmanager" "wheel"];
+      extraGroups = ["wheel" "networkmanager"];
       openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDtUq3n5g7jBJtYCZ4jrePM21zo7FniQIpQLDpP9yqAe ezozbek@nixos"];
     };
     builder = {

@@ -1,7 +1,6 @@
 {...}: {
   imports = [
     ./nix.nix
-    ./boot.nix
     ./networking.nix
     ./locale.nix
     ./audio.nix
@@ -14,11 +13,8 @@
     ./graphics
     ./environment.nix
     ./memory.nix
-    ./sops.nix
     ./ssh.nix
     ./distributed-build.nix
     ./tty.nix
-    ./kernel.nix
-    ./tailscale.nix
   ];
 }
