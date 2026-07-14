@@ -1,5 +1,0 @@
-{...}: {
-  services.kmscon = {
-    enable = false;
-  };
-}

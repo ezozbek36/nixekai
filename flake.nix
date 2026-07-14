@@ -143,18 +143,14 @@
     };
   };
 
-  outputs = inputs @ {
-    self,
-    flake-parts,
-    ...
-  }:
-    flake-parts.lib.mkFlake {inherit inputs;} {
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
       systems = import inputs.systems;
       # imports = [inputs.ez-configs.flakeModule];
       perSystem = {pkgs, ...}: {
         formatter = pkgs.alejandra;
 
-        devShells.default = import ./shell.nix self {inherit pkgs;};
+        devShells.default = import ./shell.nix inputs.self {inherit pkgs;};
         devShells.kernelConfig = pkgs.mkShell {
           packages = with pkgs; [
             gcc
@@ -190,7 +186,11 @@
       # };
 
       flake = let
-        ezModules = {cachyos-kernel = ./nixos-modules/cachyos-kernel.nix;};
+        ezModules = {
+          nix = ./nixos-modules/nix.nix;
+          kmscon = ./nixos-modules/kmscon.nix;
+          cachyos-kernel = ./nixos-modules/cachyos-kernel.nix;
+        };
       in {
         nixosConfigurations.vps01 = inputs.nixpkgs.lib.nixosSystem {
           specialArgs = {inherit inputs;};
@@ -290,7 +290,6 @@
           specialArgs = {inherit inputs ezModules;};
           modules = [
             ./hosts/noroi/configuration.nix
-            {hardware.facter.reportPath = ./hosts/noroi/facter.json;}
             {
               nixpkgs = {
                 overlays = [

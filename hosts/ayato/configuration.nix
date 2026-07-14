@@ -7,9 +7,12 @@
 
   imports =
     []
+    ++ [./users.nix]
+    ++ [ezModules.nix]
     ++ [./secrets.nix]
     ++ [./hardware.nix]
     ++ [./wireguard.nix]
+    ++ [ezModules.kmscon]
     ++ [./boot-loader.nix]
     ++ [ezModules.cachyos-kernel]
     ++ (with inputs.nixos-hardware.nixosModules; [
@@ -18,4 +21,7 @@
       inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
     ])
     ++ [];
+
+  nix.implementation = "lix";
+  nix.patchLixPipeOperator = true;
 }
