@@ -48,8 +48,8 @@
           else throw "Unknown nix implementation specified: ${config.nix.implementation}";
 
         settings = {
-          trusted-users = [ "@wheel" ];
-          
+          trusted-users = ["@wheel"];
+
           auto-optimise-store = true;
           experimental-features = [
             "flakes"

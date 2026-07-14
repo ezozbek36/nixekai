@@ -5,8 +5,8 @@
   ...
 }: let
   write-iptables = type: ip: ''
-      ${pkgs.iptables}/bin/iptables -t nat -${type} POSTROUTING -s ${ip} -o ${config.networking.nat.externalInterface} -j MASQUERADE
-    '';
+    ${pkgs.iptables}/bin/iptables -t nat -${type} POSTROUTING -s ${ip} -o ${config.networking.nat.externalInterface} -j MASQUERADE
+  '';
 in {
   networking = rec {
     nat = {

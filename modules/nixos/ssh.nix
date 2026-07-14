@@ -49,7 +49,7 @@
         User builder
         Port 22
         IdentityFile ${config.users.users.ezozbek.home}/.ssh/id_ed25519
-        
+
       Host nixos.vpn.ezozbek.dev
         User builder
         Port 22
