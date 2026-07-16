@@ -1,13 +1,17 @@
 {...}: {
+  powerManagement = {
+    enable = true;
+  };
+
+  services.thermald = {
+    enable = true;
+  };
+
   services.power-profiles-daemon.enable = false;
 
   services.tlp = {
     enable = true;
-
-    pd = {
-      enable = true;
-    };
-
+    pd.enable = true;
     settings = {
       # ============================================
       # AC Mode: Plugged In - Go Fast
@@ -32,8 +36,6 @@
       # Be efficient, but still responsive when you need it
       CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_performance";
 
-      # Don't artificially limit CPU speed - let it hit 100% when apps need it
-      # This ensures the Performance Mode toggle in GNOME actually does something
       CPU_MIN_PERF_ON_BAT = 0;
       CPU_MAX_PERF_ON_BAT = 100;
 

@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  inputs,
   ...
 }: {
   options.nix.implementation = lib.mkOption {
@@ -13,6 +14,8 @@
   };
 
   options.nix.patchLixPipeOperator = lib.mkEnableOption "Lix feature flag name parity";
+
+  options.nix.pinRegistries = lib.mkEnableOption "Whether pin flake registries/channels" // { default = true; };
 
   config = lib.mkMerge [
     (lib.mkIf (config.nix.patchLixPipeOperator) {
@@ -37,6 +40,11 @@
           });
         })
       ];
+    })
+    (lib.mkIf (config.nix.pinRegistries) {
+      nix.registry = inputs |> lib.filterAttrs (name: lib.isType "flake") |> lib.mapAttrs (name: value: {flake = value;});
+      nix.nixPath = config.nix.registry |> lib.mapAttrsToList (name: value: "${name}=flake:${name}");
+      nix.settings.flake-registry = "/etc/nix/registry.json";
     })
     {
       nix = {

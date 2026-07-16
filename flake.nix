@@ -144,9 +144,9 @@
   };
 
   outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} ({lib, ...}: {
       systems = import inputs.systems;
-      # imports = [inputs.ez-configs.flakeModule];
+      imports = [inputs.ez-configs.flakeModule];
       perSystem = {pkgs, ...}: {
         formatter = pkgs.alejandra;
 
@@ -160,152 +160,51 @@
         };
       };
 
-      # ezConfigs = rec {
-      #   root = ./.;
-      #   globalArgs = { inherit inputs; };
+      ezConfigs = rec {
+        root = ./.;
+        globalArgs = {inherit inputs;};
 
-      #   nixos = {
-      #     configurationsDirectory = "${root}/hosts";
-      #     configurationEntryPoint = "configuration.nix";
+        nixos = {
+          configurationsDirectory = "${root}/hosts";
+          configurationEntryPoint = "configuration.nix";
 
-      #     hosts = {
-      #       ayato = {
-      #         arch = "x86_64";
-      #         class = "nixos";
-      #       };
-      #       noroi = {
-      #         arch = "x86_64";
-      #         class = "nixos";
-      #       };
-      #       vps01 = {
-      #         arch = "x86_64";
-      #         class = "nixos";
-      #       };
-      #     };
-      #   };
-      # };
-
-      flake = let
-        ezModules = {
-          nix = ./nixos-modules/nix.nix;
-          kmscon = ./nixos-modules/kmscon.nix;
-          cachyos-kernel = ./nixos-modules/cachyos-kernel.nix;
+          hosts = {
+            ayato = {
+              arch = "x86_64";
+              class = "nixos";
+              tags = ["lix" "fprint" "laptop" "performance-v3"];
+            };
+            noroi = {
+              arch = "x86_64";
+              class = "nixos";
+              tags = ["lix" "performance-v3"];
+            };
+            vps01 = {
+              arch = "x86_64";
+              class = "nixos";
+            };
+          };
         };
-      in {
-        nixosConfigurations.vps01 = inputs.nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs;};
-          modules = [./hosts/vps01/configuration.nix];
+
+        perClass = class: ezModules: {
+          modules = [] ++ lib.optionals (class == "nixos") [ezModules.nix];
         };
-        nixosConfigurations.ayato = inputs.nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs ezModules;};
-          modules = [
-            {
-              networking.hostName = "ayato";
-            }
-            ({
-              lib,
-              config,
-              ...
-            }: {
-              nixpkgs.overlays =
-                [
-                  inputs.spicetify-nix.overlays.default
-                  inputs.zed-extensions.overlays.default
-                  inputs.nix-cachyos-kernel.overlays.default
-                  inputs.mac-style-plymouth.overlays.default
-                  inputs.hyprland.overlays.hyprland-packages
-                  (final: prev: let
-                    system = prev.stdenv.hostPlatform.system;
-                  in {
-                    tuigreet = inputs.tuigreet.packages.${system}.default;
-                    hyprlandPlugins =
-                      (prev.hyprlandPlugins or {})
-                      // {
-                        hyprspace = inputs.hyprspace.packages.${system}.default;
-                      };
 
-                    unstable = import inputs.nixpkgs-unstable {
-                      inherit system;
-                      config = config.nixpkgs.config;
-                    };
-
-                    assimp = prev.assimp.overrideAttrs (old: {
-                      NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -ffp-contract=on";
-                    });
-
-                    pythonPackagesExtensions =
-                      prev.pythonPackagesExtensions
-                      ++ [
-                        (py-final: py-prev: {
-                          distutils = py-prev.distutils.overridePythonAttrs (oldAttrs: {
-                            disabledTestPaths = (oldAttrs.disabledTestPaths or []) ++ ["distutils/tests"];
-                          });
-                        })
-                      ];
-                  })
-                ]
-                ++ (import ./overlays);
-              nixpkgs.config.permittedInsecurePackages = [
-                "olm-3.2.16"
-              ];
-              nixpkgs.config.allowUnfreePredicate = pkg: let
-                isFirmware =
-                  if pkg.meta ? sourceProvenance
-                  then builtins.elem lib.sourceTypes.binaryFirmware pkg.meta.sourceProvenance
-                  else builtins.elem (lib.getName pkg) ["facetimehd-firmware"];
-              in
-                isFirmware || builtins.elem (lib.getName pkg) ["nvidia-kernel-modules" "intel-ocl" "android-studio" "rust-rover" "clion" "spotify" "steam" "steam-unwrapped"];
-              nixpkgs.hostPlatform.system = "x86_64-linux";
-              nixpkgs.hostPlatform.gcc = {
-                arch = "x86-64-v3";
-                tune = "generic";
-              };
-            })
-
-            ./hosts/ayato/configuration.nix
-            ./modules/nixos/default.nix
-            ./nixos-modules/cachyos-kernel.nix
-
-            inputs.sops-nix.nixosModules.sops
-
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {inherit inputs;};
-                users.ezozbek = import ./modules/home-manager;
-                sharedModules = [
-                  inputs.stylix.homeModules.stylix
-                  inputs.zen-browser.homeModules.beta
-                  inputs.json-schema.homeModules.default
-                  inputs.zed-extensions.homeManagerModules.default
-                  inputs.spicetify-nix.homeManagerModules.spicetify
-                ];
-              };
-            }
-          ];
-        };
-        nixosConfigurations.noroi = inputs.nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs ezModules;};
-          modules = [
-            ./hosts/noroi/configuration.nix
-            {
-              nixpkgs = {
-                overlays = [
-                  inputs.nix-cachyos-kernel.overlays.default
-                ];
-                hostPlatform.system = "x86_64-linux";
-                hostPlatform.gcc = {
-                  arch = "x86-64-v3";
-                  tune = "generic";
-                };
-              };
-            }
-          ];
+        perTag = tag: ezModules: {
+          modules =
+            []
+            ++ lib.optionals (tag == "fprint") [ezModules.fingerprint]
+            ++ lib.optionals (tag == "performance-v3") [ezModules.performance-v3]
+            ++ lib.optionals (tag == "laptop") [ezModules.openrgb ezModules.power-management]
+            ++ lib.optionals (tag == "lix") [
+              {
+                nix.implementation = "lix";
+                nix.patchLixPipeOperator = true;
+              }
+            ];
         };
       };
-    };
+    });
 
   nixConfig = {
     extra-substituters = [
