@@ -1,6 +1,8 @@
 {...}: {
   powerManagement = {
     enable = true;
+    powertop.enable = true;
+    cpuFreqGovernor = "schedutil";
   };
 
   services.thermald = {
@@ -8,6 +10,10 @@
   };
 
   services.power-profiles-daemon.enable = false;
+
+  services.system76-scheduler = {
+    enable = true;
+  };
 
   services.tlp = {
     enable = true;

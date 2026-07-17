@@ -172,7 +172,7 @@
             ayato = {
               arch = "x86_64";
               class = "nixos";
-              tags = ["lix" "fprint" "laptop" "performance-v3"];
+              tags = ["lix" "laptop" "performance-v3"];
             };
             noroi = {
               arch = "x86_64";
@@ -193,7 +193,6 @@
         perTag = tag: ezModules: {
           modules =
             []
-            ++ lib.optionals (tag == "fprint") [ezModules.fingerprint]
             ++ lib.optionals (tag == "performance-v3") [ezModules.performance-v3]
             ++ lib.optionals (tag == "laptop") [ezModules.openrgb ezModules.power-management]
             ++ lib.optionals (tag == "lix") [

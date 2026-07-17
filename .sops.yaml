@@ -1,13 +1,16 @@
 keys:
   - &vps age1lfezh5ptx047fe9awjnfsktnk36ryac7tjdzk45qzz3xptsvwq6sk65w77
   - &noroi age15mwz939dccndedqq7ve0rq0vaa9nwnq87l86ycjhxps3j880gehq5g7sna
-  - &swift age1grjl3etyqf06024vqkqvdjdt5ukykynjalxwpt8m8frkcnuxtd4s765z7k
-  - &swift2 age1x7qugutjmpfq3mg90u8hul7le5w29wd48q98g4yug3qt5lus3sxqknwgn3
+  - &ayato age1grjl3etyqf06024vqkqvdjdt5ukykynjalxwpt8m8frkcnuxtd4s765z7k
+  - &ayato2 age1x7qugutjmpfq3mg90u8hul7le5w29wd48q98g4yug3qt5lus3sxqknwgn3
 creation_rules:
+  - path_regex: hosts/ayato/secrets+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *ayato
+        - *ayato2
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
         - *vps
-        - *swift
         - *noroi
-        - *swift2

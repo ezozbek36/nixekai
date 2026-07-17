@@ -1,8 +1,4 @@
-{
-  inputs,
-  ezModules,
-  ...
-}: {
+{ezModules, ...}: {
   system.stateVersion = "25.11";
 
   imports =
@@ -15,11 +11,5 @@
     ++ [./wireguard.nix]
     ++ [./boot-loader.nix]
     ++ [ezModules.cachyos-kernel]
-    ++ (with inputs.nixos-hardware.nixosModules; [
-      common-cpu-intel
-      common-gpu-intel
-      common-pc-laptop
-      common-pc-laptop-ssd
-    ])
     ++ [];
 }
