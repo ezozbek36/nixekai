@@ -7,8 +7,8 @@ creation_rules:
   - path_regex: hosts/ayato/secrets+\.(yaml|json|env|ini)$
     key_groups:
       - age:
-        - *ayato
-        - *ezozbek
+          - *ayato
+          - *ezozbek
   - path_regex: hosts/noroi/secrets+\.(yaml|json|env|ini)$
     key_groups:
       - age:
@@ -17,5 +17,5 @@ creation_rules:
   - path_regex: hosts/vps01/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
-        - *vps
-        - *ezozbek
+          - *vps
+          - *ezozbek
