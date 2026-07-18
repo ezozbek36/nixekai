@@ -12,6 +12,8 @@
 
   hardware.facter.reportPath = ./facter.json;
 
+  boot.kernelModules = ["msr"];
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-uuid/94dbb0a1-44f1-45d7-85f4-6486b21a194c";

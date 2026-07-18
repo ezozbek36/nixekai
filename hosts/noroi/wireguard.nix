@@ -10,7 +10,7 @@
 
       ips = ["100.64.0.3/24"];
 
-      privateKeyFile = config.sops.secrets.wireguard_peer1.path;
+      privateKeyFile = config.sops.secrets.wireguard.path;
 
       peers = [
         {

@@ -12,7 +12,7 @@
     age = {
       generateKey = true;
       keyFile = "/var/lib/sops-nix/key.txt";
-      sshKeyPaths = config.services.openssh.hostKeys |> lib.filter (key: key.type == "ed25519") |> lib.map (key: key.path);
+      sshKeyPaths = lib.optionals config.services.openssh.enable config.services.openssh.hostKeys |> lib.filter (key: key.type == "ed25519") |> lib.map (key: key.path);
     };
   };
 }

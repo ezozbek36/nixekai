@@ -1,8 +1,4 @@
-{
-  inputs,
-  ezModules,
-  ...
-}: {
+{ezModules, ...}: {
   system.stateVersion = "26.05";
 
   imports =
@@ -16,12 +12,6 @@
     ++ [./networking.nix]
     ++ [./boot-loader.nix]
     ++ [ezModules.cachyos-kernel]
-    ++ (with inputs.nixos-hardware.nixosModules; [
-      common-pc
-      common-pc-ssd
-      common-cpu-intel
-      common-gpu-intel
-    ])
     ++ [];
 
   nix = {
