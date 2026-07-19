@@ -1,5 +1,8 @@
 {
+  lib,
+  pkgs,
   inputs,
+  config,
   modulesPath,
   ...
 }: {
@@ -12,7 +15,21 @@
 
   hardware.facter.reportPath = ./facter.json;
 
-  boot.kernelModules = ["msr"];
+  hardware.cpu.x86.msr.enable = true;
+
+  boot = {
+    extraModulePackages = [config.boot.kernelPackages.acpi_call] ++ [(config.boot.kernelPackages.callPackage ./acer-wmi-battery.nix {})];
+    initrd.prepend =
+      ''
+        mkdir -p kernel/firmware/acpi
+        iasl -p kernel/firmware/acpi ${./acpi-rp08-fix.dsl}
+
+        find kernel | cpio -H newc --create > $out
+      ''
+      |> pkgs.runCommand "acpi-override.cpio" {nativeBuildInputs = with pkgs; [cpio acpica-tools];}
+      |> lib.toString
+      |> lib.toList;
+  };
 
   fileSystems = {
     "/" = {
