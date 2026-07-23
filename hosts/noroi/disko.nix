@@ -1,5 +1,5 @@
-{inputs, ...}: {
-  imports = [inputs.disko.nixosModules.default];
+{ inputs, ... }: {
+  imports = [ inputs.disko.nixosModules.default ];
 
   disko.devices = {
     disk = {
@@ -16,20 +16,20 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
               };
             };
             root = {
               size = "100%";
               content = {
                 type = "btrfs";
-                extraArgs = ["-f"];
+                extraArgs = [ "-f" ];
                 subvolumes = {
                   "/rootfs" = {
                     mountpoint = "/";
                   };
                   "/home" = {
-                    mountOptions = ["compress=zstd"];
+                    mountOptions = [ "compress=zstd" ];
                     mountpoint = "/home";
                   };
                   "/nix" = {

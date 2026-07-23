@@ -143,103 +143,112 @@
     };
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} ({lib, ...}: {
-      systems = import inputs.systems;
-      imports = [inputs.ez-configs.flakeModule];
-      perSystem = {pkgs, ...}: {
-        formatter = pkgs.alejandra;
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      { lib, ... }: {
+        systems = import inputs.systems;
+        imports = [ inputs.ez-configs.flakeModule ];
+        perSystem = { pkgs, ... }: {
+          formatter = pkgs.nixfmt;
 
-        devShells.default = import ./shell.nix inputs.self {inherit pkgs;};
-        devShells.kernelConfig = pkgs.mkShell {
-          packages = with pkgs; [
-            gcc
-            flex
-            bison
-          ];
+          devShells.default = import ./shell.nix inputs.self { inherit pkgs; };
+          devShells.kernelConfig = pkgs.mkShell {
+            packages = with pkgs; [
+              gcc
+              flex
+              bison
+            ];
+          };
         };
-      };
 
-      ezConfigs = rec {
-        root = ./.;
-        globalArgs = {inherit inputs;};
+        ezConfigs = rec {
+          root = ./.;
+          globalArgs = { inherit inputs; };
 
-        nixos = {
-          configurationsDirectory = "${root}/hosts";
-          configurationEntryPoint = "configuration.nix";
+          nixos = {
+            configurationsDirectory = "${root}/hosts";
+            configurationEntryPoint = "configuration.nix";
 
-          earlyModuleArgs = {
-            topology = {
-              port = 51820;
-              subnet = "100.64.0.0/24";
-  
-              hub = {
-                tunnelIP = "100.64.0.1";
-                endpoint = "185.203.117.165";
-                publicKey = "pZoJJXulyj9gjmNgBN9rQvWpI7WPl8Q2RGWNGpmtZik=";
+            earlyModuleArgs = {
+              topology = {
+                port = 51820;
+                subnet = "100.64.0.0/24";
+
+                hub = {
+                  tunnelIP = "100.64.0.1";
+                  endpoint = "185.203.117.165";
+                  publicKey = "pZoJJXulyj9gjmNgBN9rQvWpI7WPl8Q2RGWNGpmtZik=";
+                };
+
+                spokes = {
+                  ayato = {
+                    tunnelIP = "100.64.0.2";
+                    publicKey = "8EV3QAkb8XOcgY5t1I2gQDL8iTcreRNzXM8JZhwj6Sg=";
+                  };
+                  noroi = {
+                    tunnelIP = "100.64.0.3";
+                    publicKey = "EUXMM9c6Hgsh4X/b//BFQ7JxutNfrD08f5WI8J/FWzI=";
+                  };
+                };
               };
-  
-              spokes = {
-                ayato = {
-                  tunnelIP = "100.64.0.2";
-                  publicKey = "8EV3QAkb8XOcgY5t1I2gQDL8iTcreRNzXM8JZhwj6Sg=";
-                };
-                noroi = {
-                  tunnelIP = "100.64.0.3";
-                  publicKey = "EUXMM9c6Hgsh4X/b//BFQ7JxutNfrD08f5WI8J/FWzI=";
-                };
+            };
+
+            hosts = {
+              ayato = {
+                arch = "x86_64";
+                class = "nixos";
+                tags = [
+                  "lix"
+                  "laptop"
+                ];
+              };
+              noroi = {
+                arch = "x86_64";
+                class = "nixos";
+                tags = [
+                  "lix"
+                  "performance-v3"
+                ];
+              };
+              vps01 = {
+                arch = "x86_64";
+                class = "nixos";
               };
             };
           };
 
-          hosts = {
-            ayato = {
-              arch = "x86_64";
-              class = "nixos";
-              tags = ["lix" "laptop"];
-            };
-            noroi = {
-              arch = "x86_64";
-              class = "nixos";
-              tags = ["lix" "performance-v3"];
-            };
-            vps01 = {
-              arch = "x86_64";
-              class = "nixos";
-            };
+          perClass = class: ezModules: {
+            modules =
+              [ ] ++ [ ezModules.bluetoth ] ++ lib.optionals (class == "nixos") [ ezModules.nix ] ++ [ ];
+          };
+
+          perTag = tag: ezModules: {
+            modules =
+              [ ]
+              ++ lib.optionals (tag == "performance-v3") [ ezModules.performance-v3 ]
+              ++ lib.optionals (tag == "laptop") [
+                ezModules.openrgb
+                ezModules.power-management
+              ]
+              ++ lib.optionals (tag == "lix") [
+                {
+                  nix.implementation = "lix";
+                  nix.patchLixPipeOperator = true;
+                }
+              ]
+              ++ [ ];
           };
         };
+      }
+    );
 
-        perClass = class: ezModules: {
-          modules =
-            []
-            ++ [ezModules.bluetoth]
-            ++ lib.optionals (class == "nixos") [ezModules.nix]
-            ++ [];
-        };
-
-        perTag = tag: ezModules: {
-          modules =
-            []
-            ++ lib.optionals (tag == "performance-v3") [ezModules.performance-v3]
-            ++ lib.optionals (tag == "laptop") [ezModules.openrgb ezModules.power-management]
-            ++ lib.optionals (tag == "lix") [
-              {
-                nix.implementation = "lix";
-                nix.patchLixPipeOperator = true;
-              }
-            ]
-            ++ [];
-        };
-      };
-    });
-
-  nixConfig = {
-    extra-substituters = [
-      "ssh-ng://builder@10.10.1.223"
-    ];
-    extra-trusted-public-keys = [
-      "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="
-    ];
-  };
+  # nixConfig = {
+  #   extra-substituters = [
+  #     "ssh-ng://builder@10.10.1.223"
+  #   ];
+  #   extra-trusted-public-keys = [
+  #     "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="
+  #   ];
+  # };
 }

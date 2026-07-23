@@ -2,7 +2,8 @@
   pkgs,
   # firefox-addons,
   ...
-}: {
+}:
+{
   programs.zen-browser = {
     enable = true;
     setAsDefaultBrowser = true;

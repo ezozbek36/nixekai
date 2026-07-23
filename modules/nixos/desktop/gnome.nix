@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   services.desktopManager.gnome = {
     enable = true;
     extraGSettingsOverrides = ''
@@ -7,7 +7,7 @@
     '';
   };
 
-  environment.systemPackages = with pkgs; [resources];
+  environment.systemPackages = with pkgs; [ resources ];
 
   environment = {
     gnome.excludePackages = with pkgs; [

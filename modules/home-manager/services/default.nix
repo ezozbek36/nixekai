@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   imports = [
     # ./ollama.nix
   ];

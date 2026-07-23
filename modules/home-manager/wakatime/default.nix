@@ -2,10 +2,12 @@
   pkgs,
   nixosConfig,
   ...
-}: let
-  ini = pkgs.formats.ini {};
-in {
-  imports = [./targets.nix];
+}:
+let
+  ini = pkgs.formats.ini { };
+in
+{
+  imports = [ ./targets.nix ];
 
   home.file.".wakatime.cfg".source = ini.generate ".wakatime.cfg" {
     settings = {

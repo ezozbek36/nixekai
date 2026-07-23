@@ -1,25 +1,30 @@
-args @ {
+args@{
   lib,
   pkgs,
   ...
-}: {
-  imports = [./rofi.nix];
+}:
+{
+  imports = [ ./rofi.nix ];
 
   wayland.windowManager.hyprland = {
     enable = true;
     configType = "lua";
     systemd = {
       enable = true;
-      extraCommands = [];
-      variables = ["--all"];
+      extraCommands = [ ];
+      variables = [ "--all" ];
       enableXdgAutostart = true;
     };
 
-    plugins = with pkgs.hyprlandPlugins; [];
+    plugins = with pkgs.hyprlandPlugins; [ ];
 
     settings = {
-      mod = {_var = "SUPER";};
-      terminal = {_var = "alacritty";};
+      mod = {
+        _var = "SUPER";
+      };
+      terminal = {
+        _var = "alacritty";
+      };
 
       config = {
         general = {
@@ -81,7 +86,10 @@ args @ {
 
       env = [
         {
-          _args = ["AQ_DRM_DEVICES" "/dev/dri/card1:/dev/dri/card0"];
+          _args = [
+            "AQ_DRM_DEVICES"
+            "/dev/dri/card1:/dev/dri/card0"
+          ];
         }
       ];
     };

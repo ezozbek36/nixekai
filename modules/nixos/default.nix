@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   imports = [
     ./networking.nix
     ./locale.nix

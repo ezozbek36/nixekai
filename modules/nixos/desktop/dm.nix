@@ -2,7 +2,8 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   services.greetd = {
     enable = true;
     useTextGreeter = true;

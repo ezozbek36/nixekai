@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   imports = [
     ./git.nix
     ./browser
@@ -8,5 +8,5 @@
     ./telegram-desktop.nix
   ];
 
-  home.packages = with pkgs; [d-spy];
+  home.packages = with pkgs; [ d-spy ];
 }

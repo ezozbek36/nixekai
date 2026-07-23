@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   nixpkgs = {
     hostPlatform = {
       system = "x86_64-linux";
@@ -11,15 +11,13 @@
           NIX_CFLAGS_COMPILE = (old.NIX_CFLAGS_COMPILE or "") + " -ffp-contract=on";
         });
 
-        pythonPackagesExtensions =
-          prev.pythonPackagesExtensions
-          ++ [
-            (py-final: py-prev: {
-              distutils = py-prev.distutils.overridePythonAttrs (oldAttrs: {
-                disabledTestPaths = (oldAttrs.disabledTestPaths or []) ++ ["distutils/tests"];
-              });
-            })
-          ];
+        pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+          (py-final: py-prev: {
+            distutils = py-prev.distutils.overridePythonAttrs (oldAttrs: {
+              disabledTestPaths = (oldAttrs.disabledTestPaths or [ ]) ++ [ "distutils/tests" ];
+            });
+          })
+        ];
       })
     ];
   };

@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   dconf.settings = {
     "org/gnome/shell/extensions/blur-my-shell" = {
       brightness = 0.6;

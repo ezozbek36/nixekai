@@ -1,9 +1,9 @@
-{...}: {
-  programs.fastfetch.settings = {};
+{ ... }: {
+  programs.fastfetch.settings = { };
 
   programs.fastfetchCustom = {
     enable = true;
-    settings = {};
+    settings = { };
   };
 
   # programs.fastfetchCustom = {

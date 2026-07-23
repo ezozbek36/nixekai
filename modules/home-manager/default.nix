@@ -1,5 +1,5 @@
 # Home Manager configuration
-{...}: {
+{ ... }: {
   home = {
     username = "ezozbek";
     preferXdgDirectories = true;

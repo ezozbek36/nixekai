@@ -2,7 +2,8 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   kernelPackage = pkgs.cachyosKernels.linux-cachyos-latest.override {
     rt = true;
     bbr3 = true;
@@ -16,7 +17,8 @@
     performanceGovernor = true;
     processorOpt = "x86_64-v3";
   };
-in {
+in
+{
   nixpkgs.overlays = [
     inputs.nix-cachyos-kernel.overlays.default
   ];

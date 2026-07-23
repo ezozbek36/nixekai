@@ -10,12 +10,18 @@ stdenv.mkDerivation {
 
   src = lib.fileset.toSource {
     root = ./.;
-    fileset = lib.fileset.unions [./acpi-rp08-fix.dsl];
+    fileset = lib.fileset.unions [ ./acpi-rp08-fix.dsl ];
   };
 
-  phases = ["unpackPhase" "installPhase"];
+  phases = [
+    "unpackPhase"
+    "installPhase"
+  ];
 
-  nativeBuildInputs = [cpio acpica-tools];
+  nativeBuildInputs = [
+    cpio
+    acpica-tools
+  ];
 
   installPhase = ''
     mkdir -p kernel/firmware/acpi

@@ -1,5 +1,5 @@
-{ezModules, ...}: {
-  imports = [ezModules.sops];
+{ ezModules, ... }: {
+  imports = [ ezModules.sops ];
 
   sops.defaultSopsFile = ./secrets.yaml;
 }

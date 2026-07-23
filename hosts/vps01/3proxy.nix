@@ -1,4 +1,4 @@
-{config, ...}: {
+{ ... }: rec {
   services._3proxy = {
     enable = true;
     usersFile = "/etc/3proxy.passwd";
@@ -6,18 +6,18 @@
       {
         type = "socks";
         bindPort = 1080;
-        auth = ["strong"];
+        auth = [ "strong" ];
         acl = [
           {
             rule = "allow";
-            users = ["ezozbek"];
+            users = [ "ezozbek" ];
           }
         ];
       }
     ];
   };
 
-  networking.firewall.allowedTCPPorts = config.services._3proxy.services |> map (service: service.bindPort);
+  networking.firewall.allowedTCPPorts = services._3proxy.services |> map (service: service.bindPort);
 
   environment.etc."3proxy.passwd".text = ''
     ezozbek:CR:$1$2JbeTWNL$WXwQ3H/ykbzG3UagFikLA1

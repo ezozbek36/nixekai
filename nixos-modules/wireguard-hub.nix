@@ -3,21 +3,22 @@
   config,
   topology,
   ...
-}: {
+}:
+{
   boot.kernel.sysctl."net.ipv4.ip_forward" = true;
-  
+
   sops.secrets.wireguard = {
     mode = "640";
     owner = "systemd-network";
     group = "systemd-network";
   };
 
-  networking.firewall.allowedUDPPorts = [topology.port];
+  networking.firewall.allowedUDPPorts = [ topology.port ];
 
   systemd.network = {
     networks."50-wg0" = {
       matchConfig.Name = "wg0";
-      address = ["${topology.hub.tunnelIP}/24"];
+      address = [ "${topology.hub.tunnelIP}/24" ];
       networkConfig = {
         IPv4Forwarding = true;
       };
@@ -34,10 +35,12 @@
       };
       wireguardPeers =
         topology.spokes
-        |> lib.mapAttrsToList (name: spoke: {
-          PublicKey = spoke.publicKey;
-          AllowedIPs = ["${spoke.tunnelIP}/32"];
-        });
+        |> lib.mapAttrsToList (
+          name: spoke: {
+            PublicKey = spoke.publicKey;
+            AllowedIPs = [ "${spoke.tunnelIP}/32" ];
+          }
+        );
     };
   };
 }

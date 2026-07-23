@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   hardware.bluetooth = {
     powerOnBoot = true;
     settings = {

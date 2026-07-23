@@ -1,7 +1,5 @@
-{pkgs, ...}: {
-  programs.zsh = {
-    enable = true;
-  };
+{ pkgs, ... }: {
+  programs.zsh.enable = true;
 
   users = {
     defaultUserShell = pkgs.zsh;
@@ -9,7 +7,7 @@
       ezozbek = {
         isNormalUser = true;
         initialPassword = "123";
-        extraGroups = ["wheel"];
+        extraGroups = [ "wheel" ];
       };
       root = {
         openssh.authorizedKeys.keys = [

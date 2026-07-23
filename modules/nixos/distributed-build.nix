@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   nix = {
     distributedBuilds = true;
     settings = {
