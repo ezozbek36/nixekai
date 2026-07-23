@@ -4,11 +4,11 @@
     wget
     curl
     btop
-    intel-gpu-tools
-    libva-utils
-    vulkan-tools
     pciutils
     usbutils
     lm_sensors
+    libva-utils
+    vulkan-tools
+    intel-gpu-tools
   ];
 }

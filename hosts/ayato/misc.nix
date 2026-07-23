@@ -30,7 +30,8 @@
           };
         })
       ]
-      ++ (import ../../overlays);
+      # ++ (import ../../overlays)
+      ;
     config.permittedInsecurePackages = [
       "olm-3.2.16"
     ];

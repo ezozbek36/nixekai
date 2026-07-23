@@ -1,4 +1,4 @@
-{...}: {
+{ezModules, ...}: {
   system.stateVersion = "23.06";
 
   imports =
@@ -9,8 +9,8 @@
     ++ [./3proxy.nix]
     ++ [./secrets.nix]
     ++ [./hardware.nix]
-    ++ [./wireguard.nix]
     ++ [./networking.nix]
     ++ [./boot-loader.nix]
+    ++ [ezModules.wireguard-hub]
     ++ [];
 }

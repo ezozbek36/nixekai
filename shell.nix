@@ -9,6 +9,7 @@ pkgs.mkShellNoCC {
     age
     sops
     ssh-to-age
+    acpica-tools
     wireguard-tools
   ];
 }

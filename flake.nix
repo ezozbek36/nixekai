@@ -168,11 +168,35 @@
           configurationsDirectory = "${root}/hosts";
           configurationEntryPoint = "configuration.nix";
 
+          earlyModuleArgs = {
+            topology = {
+              port = 51820;
+              subnet = "100.64.0.0/24";
+  
+              hub = {
+                tunnelIP = "100.64.0.1";
+                endpoint = "185.203.117.165";
+                publicKey = "pZoJJXulyj9gjmNgBN9rQvWpI7WPl8Q2RGWNGpmtZik=";
+              };
+  
+              spokes = {
+                ayato = {
+                  tunnelIP = "100.64.0.2";
+                  publicKey = "8EV3QAkb8XOcgY5t1I2gQDL8iTcreRNzXM8JZhwj6Sg=";
+                };
+                noroi = {
+                  tunnelIP = "100.64.0.3";
+                  publicKey = "EUXMM9c6Hgsh4X/b//BFQ7JxutNfrD08f5WI8J/FWzI=";
+                };
+              };
+            };
+          };
+
           hosts = {
             ayato = {
               arch = "x86_64";
               class = "nixos";
-              tags = ["lix" "laptop" "performance-v3"];
+              tags = ["lix" "laptop"];
             };
             noroi = {
               arch = "x86_64";
@@ -187,7 +211,11 @@
         };
 
         perClass = class: ezModules: {
-          modules = [] ++ lib.optionals (class == "nixos") [ezModules.nix];
+          modules =
+            []
+            ++ [ezModules.bluetoth]
+            ++ lib.optionals (class == "nixos") [ezModules.nix]
+            ++ [];
         };
 
         perTag = tag: ezModules: {
@@ -200,7 +228,8 @@
                 nix.implementation = "lix";
                 nix.patchLixPipeOperator = true;
               }
-            ];
+            ]
+            ++ [];
         };
       };
     });

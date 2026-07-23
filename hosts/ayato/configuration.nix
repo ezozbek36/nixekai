@@ -8,8 +8,10 @@
     ++ [./users.nix]
     ++ [./secrets.nix]
     ++ [./hardware.nix]
-    ++ [./wireguard.nix]
+    ++ [ezModules.avahi]
+    ++ [ezModules.gaming]
     ++ [./boot-loader.nix]
     ++ [ezModules.cachyos-kernel]
+    ++ [ezModules.wireguard-spoke]
     ++ [];
 }

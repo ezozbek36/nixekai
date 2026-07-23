@@ -42,9 +42,10 @@
       {
         maxJobs = 24;
         speedFactor = 2;
+        sshUser = "builder";
         protocol = "ssh-ng";
         system = "x86_64-linux";
-        hostName = "10.10.0.183";
+        hostName = "10.10.1.223";
         supportedFeatures = [
           "nixos-test"
           "benchmark"

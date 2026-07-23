@@ -8,10 +8,11 @@
     ++ [./disko.nix]
     ++ [./secrets.nix]
     ++ [./hardware.nix]
-    ++ [./wireguard.nix]
+    ++ [ezModules.avahi]
     ++ [./networking.nix]
     ++ [./boot-loader.nix]
     ++ [ezModules.cachyos-kernel]
+    ++ [ezModules.wireguard-spoke]
     ++ [];
 
   nix = {

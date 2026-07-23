@@ -1,3 +1,13 @@
-{...}: {
-  networking.networkmanager.enable = true;
+{...}: rec {
+  networking.nameservers = ["1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one"];
+
+  services.resolved = {
+    enable = true;
+    settings.Resolve = {
+      DNSSEC = true;
+      Domains = ["~."];
+      DNSOverTLS = true;
+      FallbackDNS = networking.nameservers;
+    };
+  };
 }
