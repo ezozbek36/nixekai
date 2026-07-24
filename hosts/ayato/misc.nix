@@ -17,7 +17,7 @@
       (
         final: prev:
         let
-          system = prev.stdenv.hostPlatform.system;
+          system = final.stdenv.hostPlatform.system;
         in
         {
           tuigreet = inputs.tuigreet.packages.${system}.default;

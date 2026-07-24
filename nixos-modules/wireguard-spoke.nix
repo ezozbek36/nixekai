@@ -19,7 +19,7 @@
     netdevs."50-wg0" = {
       netdevConfig = {
         Name = "wg0";
-        MTUBytes = 1420;
+        MTUBytes = 1320;
         Kind = "wireguard";
       };
       wireguardConfig = {

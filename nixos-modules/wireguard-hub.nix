@@ -20,13 +20,14 @@
       matchConfig.Name = "wg0";
       address = [ "${topology.hub.tunnelIP}/24" ];
       networkConfig = {
+        MulticastDNS = true;
         IPv4Forwarding = true;
       };
     };
     netdevs."50-wg0" = {
       netdevConfig = {
         Name = "wg0";
-        MTUBytes = 1420;
+        MTUBytes = 1320;
         Kind = "wireguard";
       };
       wireguardConfig = {
@@ -37,6 +38,7 @@
         topology.spokes
         |> lib.mapAttrsToList (
           name: spoke: {
+            PersistentKeepalive = 25;
             PublicKey = spoke.publicKey;
             AllowedIPs = [ "${spoke.tunnelIP}/32" ];
           }

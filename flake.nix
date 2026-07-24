@@ -206,10 +206,7 @@
               noroi = {
                 arch = "x86_64";
                 class = "nixos";
-                tags = [
-                  "lix"
-                  "performance-v3"
-                ];
+                tags = ["lix"];
               };
               vps01 = {
                 arch = "x86_64";
@@ -243,12 +240,12 @@
       }
     );
 
-  # nixConfig = {
-  #   extra-substituters = [
-  #     "ssh-ng://builder@10.10.1.223"
-  #   ];
-  #   extra-trusted-public-keys = [
-  #     "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="
-  #   ];
-  # };
+  nixConfig = {
+    extra-substituters = [
+      "ssh-ng://builder@10.10.1.223"
+    ];
+    extra-trusted-public-keys = [
+      "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="
+    ];
+  };
 }
