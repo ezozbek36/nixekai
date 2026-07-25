@@ -13,7 +13,9 @@
     group = "systemd-network";
   };
 
-  networking.firewall.allowedUDPPorts = [ topology.port ];
+  networking = {
+    firewall.allowedUDPPorts = [ topology.port ];
+  };
 
   systemd.network = {
     networks."50-wg0" = {

@@ -1,9 +1,17 @@
 {
+  lib,
   config,
   topology,
   ...
 }:
 {
+  networking = {
+    firewall.allowedUDPPorts = [ topology.port ];
+    networkmanager.unmanaged = lib.mkIf config.networking.networkmanager.enable [
+      "interface-name:wg0"
+    ];
+  };
+
   sops.secrets.wireguard = {
     mode = "640";
     owner = "systemd-network";
@@ -23,6 +31,7 @@
         Kind = "wireguard";
       };
       wireguardConfig = {
+        ListenPort = topology.port;
         PrivateKeyFile = config.sops.secrets.wireguard.path;
       };
       wireguardPeers = [
