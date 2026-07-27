@@ -10,10 +10,9 @@
     ++ [ ezModules.ssh ]
     ++ [ ezModules.tpm2 ]
     ++ [ ./hardware.nix ]
+    ++ [ ./networking.nix ]
     ++ [ ezModules.gaming ]
     ++ [ ./boot-loader.nix ]
-    ++ [ ezModules.dns-resolved ]
     ++ [ ezModules.cachyos-kernel ]
-    ++ [ ezModules.wireguard-spoke ]
     ++ [ ];
 }

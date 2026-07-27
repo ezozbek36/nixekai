@@ -1,4 +1,6 @@
-{ ... }: {
+{ ezModules, ... }: {
+  imports = [ ezModules.wireguard-hub ];
+
   networking = {
     useDHCP = false;
     useNetworkd = true;

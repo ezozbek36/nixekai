@@ -12,7 +12,6 @@
     ++ [ ./networking.nix ]
     ++ [ ./boot-loader.nix ]
     ++ [ ezModules.cachyos-kernel ]
-    ++ [ ezModules.wireguard-spoke ]
     ++ [ ];
 
   nix = {
