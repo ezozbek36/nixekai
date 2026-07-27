@@ -1,24 +1,5 @@
-{ ... }: rec {
-  networking = {
-    networkmanager = {
-      enable = true;
-      dns = "systemd-resolved";
-    };
-    nameservers = [
-      "1.1.1.1#one.one.one.one"
-      "1.0.0.1#one.one.one.one"
-    ];
-  };
+{ ezModules, ... }: {
+  imports = [ ezModules.dns-resolved ];
 
-  services.resolved = {
-    enable = true;
-    settings.Resolve = {
-      DNSSEC = true;
-      DNSOverTLS = true;
-      Domains = [ "~." ];
-      MulticastDNS = true;
-      FallbackDNS = networking.nameservers;
-    };
-  };
-
+  networking.networkmanager.enable = true;
 }

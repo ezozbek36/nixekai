@@ -9,7 +9,6 @@
     ++ [ ./secrets.nix ]
     ++ [ ./hardware.nix ]
     ++ [ ezModules.tpm2 ]
-    ++ [ ezModules.avahi ]
     ++ [ ./networking.nix ]
     ++ [ ./boot-loader.nix ]
     ++ [ ezModules.cachyos-kernel ]
