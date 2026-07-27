@@ -22,7 +22,6 @@
       matchConfig.Name = "wg0";
       address = [ "${topology.hub.tunnelIP}/24" ];
       networkConfig = {
-        MulticastDNS = true;
         IPv4Forwarding = true;
       };
     };

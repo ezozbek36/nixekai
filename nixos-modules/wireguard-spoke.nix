@@ -18,30 +18,39 @@
     group = "systemd-network";
   };
 
-  systemd.network = {
-    enable = true;
-    networks."50-wg0" = {
-      matchConfig.Name = "wg0";
-      address = [ "${topology.spokes.${config.networking.hostName}.tunnelIP}/24" ];
+  systemd = {
+    services.systemd-networkd = lib.mkIf config.sops.useSystemdActivation {
+      after = [ "sops-install-secrets.service" ];
+      wants = [ "sops-install-secrets.service" ];
     };
-    netdevs."50-wg0" = {
-      netdevConfig = {
-        Name = "wg0";
-        MTUBytes = 1320;
-        Kind = "wireguard";
+
+    network = {
+      enable = true;
+      wait-online.enable = false;
+      networks."50-wg0" = {
+        matchConfig.Name = "wg0";
+        address = [ "${topology.spokes.${config.networking.hostName}.tunnelIP}/24" ];
+        linkConfig.RequiredForOnline = "no";
       };
-      wireguardConfig = {
-        ListenPort = topology.port;
-        PrivateKeyFile = config.sops.secrets.wireguard.path;
+      netdevs."50-wg0" = {
+        netdevConfig = {
+          Name = "wg0";
+          MTUBytes = 1320;
+          Kind = "wireguard";
+        };
+        wireguardConfig = {
+          ListenPort = topology.port;
+          PrivateKeyFile = config.sops.secrets.wireguard.path;
+        };
+        wireguardPeers = [
+          {
+            PersistentKeepalive = 25;
+            AllowedIPs = [ topology.subnet ];
+            PublicKey = topology.hub.publicKey;
+            Endpoint = "${topology.hub.endpoint}:${toString topology.port}";
+          }
+        ];
       };
-      wireguardPeers = [
-        {
-          PersistentKeepalive = 25;
-          AllowedIPs = [ topology.subnet ];
-          PublicKey = topology.hub.publicKey;
-          Endpoint = "${topology.hub.endpoint}:${toString topology.port}";
-        }
-      ];
     };
   };
 }

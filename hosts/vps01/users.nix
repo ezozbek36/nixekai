@@ -1,18 +1,18 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
   programs.zsh.enable = true;
+
+  sops.secrets."users_passwd/ezozbek" = { };
 
   users = {
     defaultUserShell = pkgs.zsh;
-    users = {
+    users = rec {
+      root.openssh.authorizedKeys.keys = ezozbek.openssh.authorizedKeys.keys;
       ezozbek = {
         isNormalUser = true;
-        initialPassword = "123";
         extraGroups = [ "wheel" ];
-      };
-      root = {
+        hashedPasswordFile = config.sops.secrets."users_passwd/ezozbek".path;
         openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP1hoZGyBJs13/TJSFYBemhMtaY6Qy78xTjV4Wp2QMQ9 ezozbek@swift"
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILvEU2QT26Kbj0Kyi3JwXU3VRGrLbQbQLC32FXqkwmxF ezozbek@nixos"
+          "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF16uS/uNuHJpnk4BtZI/eB5Mmtl9EgVxYJLWe2xbh38ZPTlndsySvMwwoeILW9PavrOWsIQ1HhoC2adykSECAE= ayato > vps01"
         ];
       };
     };

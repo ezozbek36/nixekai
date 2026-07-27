@@ -4,6 +4,8 @@
   ...
 }:
 {
+  security.pam.services.greetd.enable = true;
+
   services.greetd = {
     enable = true;
     useTextGreeter = true;

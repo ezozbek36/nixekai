@@ -1,26 +1,28 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
   programs.zsh.enable = true;
+
+  services.userborn.enable = true;
+
+  sops.secrets."users_passwd/ezozbek" = { };
 
   users = {
     defaultUserShell = pkgs.zsh;
-    users = {
+    users = rec {
       ezozbek = {
         isNormalUser = true;
-        initialPassword = "123";
+        hashedPasswordFile = config.sops.secrets."users_passwd/ezozbek".path;
         extraGroups = [
           "wheel"
           "networkmanager"
         ];
         openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDtUq3n5g7jBJtYCZ4jrePM21zo7FniQIpQLDpP9yqAe ezozbek@nixos"
+          "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCzYNs/SnPVAopjHnPmPQYoOubuZGq8rC9olk+s6EelCykm/xjJHWjXuf9Cl1FGXY/80UKD5qkfveM3kiAMCU2Q= ayato > noroi"
         ];
       };
       builder = {
         isNormalUser = true;
         extraGroups = [ "wheel" ];
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDtUq3n5g7jBJtYCZ4jrePM21zo7FniQIpQLDpP9yqAe ezozbek@nixos"
-        ];
+        openssh.authorizedKeys.keys = ezozbek.openssh.authorizedKeys.keys;
       };
     };
   };

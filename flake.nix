@@ -190,6 +190,10 @@
                     tunnelIP = "100.64.0.3";
                     publicKey = "EUXMM9c6Hgsh4X/b//BFQ7JxutNfrD08f5WI8J/FWzI=";
                   };
+                  android = {
+                    tunnelIP = "100.64.0.4";
+                    publicKey = "Eo/5YTwml+oIEXFRNWqjNT2Kv596xAJ7ZDc2K9q01A4=";
+                  };
                 };
               };
             };
@@ -206,7 +210,7 @@
               noroi = {
                 arch = "x86_64";
                 class = "nixos";
-                tags = ["lix"];
+                tags = [ "lix" ];
               };
               vps01 = {
                 arch = "x86_64";
@@ -240,12 +244,12 @@
       }
     );
 
-  nixConfig = {
-    extra-substituters = [
-      "ssh-ng://builder@10.10.1.223"
-    ];
-    extra-trusted-public-keys = [
-      "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="
-    ];
-  };
+  # nixConfig = {
+  #   extra-substituters = [
+  #     "ssh-ng://builder@10.10.1.223"
+  #   ];
+  #   extra-trusted-public-keys = [
+  #     "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="
+  #   ];
+  # };
 }

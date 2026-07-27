@@ -7,7 +7,6 @@
     ./desktop
     ./graphics
     ./memory.nix
-    ./ssh.nix
     ./distributed-build.nix
   ];
 }

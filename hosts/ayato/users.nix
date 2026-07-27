@@ -1,11 +1,14 @@
 { pkgs, ... }: {
   programs.zsh.enable = true;
 
+  services.userborn.enable = true;
+
   users = {
     defaultUserShell = pkgs.zsh;
     users.ezozbek = {
       isNormalUser = true;
       extraGroups = [
+        "tss"
         "audio"
         "video"
         "wheel"

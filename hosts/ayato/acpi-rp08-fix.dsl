@@ -45,4 +45,3 @@ DefinitionBlock ("", "SSDT", 2, "CUSTOM", "RP08FIX", 0x00000001)
         Alias (\_SB.PC00.PEG1.PEGP.LTRE, LTRE)
     }
 }
-

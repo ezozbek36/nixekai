@@ -8,7 +8,9 @@
 {
   imports =
     [ ]
-    ++ [ (modulesPath + "/installer/scan/not-detected.nix") ]
+    ++ [ "${modulesPath}/installer/scan/not-detected.nix" ]
+    ++ (with inputs.nixos-hardware.nixosModules; [ common-cpu-intel ])
+    ++ (with inputs.nixos-hardware.nixosModules; [ common-gpu-intel ])
     ++ (with inputs.nixos-hardware.nixosModules; [ common-pc-laptop ])
     ++ (with inputs.nixos-hardware.nixosModules; [ common-pc-laptop-ssd ])
     ++ [ ];

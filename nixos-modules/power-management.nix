@@ -2,7 +2,7 @@
   powerManagement = {
     enable = true;
     powertop.enable = true;
-    cpuFreqGovernor = "schedutil";
+    cpuFreqGovernor = "performance";
   };
 
   services.thermald = {

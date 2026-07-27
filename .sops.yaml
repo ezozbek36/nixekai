@@ -1,8 +1,8 @@
 keys:
   - &vps age1lfezh5ptx047fe9awjnfsktnk36ryac7tjdzk45qzz3xptsvwq6sk65w77
-  - &noroi age15mwz939dccndedqq7ve0rq0vaa9nwnq87l86ycjhxps3j880gehq5g7sna
-  - &ayato age1x7qugutjmpfq3mg90u8hul7le5w29wd48q98g4yug3qt5lus3sxqknwgn3
-  - &ezozbek age1grjl3etyqf06024vqkqvdjdt5ukykynjalxwpt8m8frkcnuxtd4s765z7k
+  - &noroi age1tag1qggzrp8nlvq8mzfwq9kpn3jft7gpmakjr5x8tacpaplu3pvvr8wauawlncf
+  - &ayato age1tag1qv43j9xyzneuk73p5fc9jvye46e86ym5qntlh58kyzzvf9wfgtpay4tn79t
+  - &ezozbek age1tag1qtvwagq2xs3t9wv6604grs3m37m0h4cezys5ms30svwhv3vzf6nn262krzd
 creation_rules:
   - path_regex: hosts/ayato/secrets+\.(yaml|json|env|ini)$
     key_groups:

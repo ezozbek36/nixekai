@@ -7,6 +7,8 @@
     ++ [ ./misc.nix ]
     ++ [ ./users.nix ]
     ++ [ ./secrets.nix ]
+    ++ [ ezModules.ssh ]
+    ++ [ ezModules.tpm2 ]
     ++ [ ./hardware.nix ]
     ++ [ ezModules.avahi ]
     ++ [ ezModules.gaming ]
