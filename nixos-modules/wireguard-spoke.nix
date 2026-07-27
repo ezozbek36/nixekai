@@ -30,7 +30,6 @@
       networks."50-wg0" = {
         matchConfig.Name = "wg0";
         address = [ "${topology.spokes.${config.networking.hostName}.tunnelIP}/24" ];
-        linkConfig.RequiredForOnline = "no";
       };
       netdevs."50-wg0" = {
         netdevConfig = {
@@ -44,7 +43,7 @@
         };
         wireguardPeers = [
           {
-            PersistentKeepalive = 25;
+            PersistentKeepalive = 20;
             AllowedIPs = [ topology.subnet ];
             PublicKey = topology.hub.publicKey;
             Endpoint = "${topology.hub.endpoint}:${toString topology.port}";

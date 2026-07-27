@@ -39,7 +39,7 @@
         topology.spokes
         |> lib.mapAttrsToList (
           name: spoke: {
-            PersistentKeepalive = 25;
+            PersistentKeepalive = 20;
             PublicKey = spoke.publicKey;
             AllowedIPs = [ "${spoke.tunnelIP}/32" ];
           }
