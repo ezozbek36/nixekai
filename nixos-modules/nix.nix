@@ -20,6 +20,17 @@
     default = true;
   };
 
+  options.nix.includeAccessTokens =
+    lib.mkEnableOption "Whether include access tokens from sops templates"
+    // {
+      default =
+        config.sops.secrets
+        |> lib.filterAttrs (name: value: lib.match "^access_tokens/.+$" name != null)
+        |> lib.attrNames
+        |> lib.length
+        |> (x: x > 0);
+    };
+
   config = lib.mkMerge [
     (lib.mkIf (config.nix.patchLixPipeOperator) {
       nixpkgs.overlays = [
@@ -53,6 +64,25 @@
         |> lib.mapAttrs (name: value: { flake = value; });
       nix.nixPath = config.nix.registry |> lib.mapAttrsToList (name: value: "${name}=flake:${name}");
       nix.settings.flake-registry = "/etc/nix/registry.json";
+    })
+    (lib.mkIf (config.nix.includeAccessTokens) {
+      sops.templates."nix-access-tokens.conf" = {
+        restartUnits = [ "nix-daemon.service" ];
+        content = ''
+          access-tokens = ${
+            config.sops.secrets
+            |> lib.filterAttrs (name: value: lib.match "^access_tokens/.+$" name != null)
+            |> lib.mapAttrsToList (
+              name: value: "${name |> lib.splitString "/" |> lib.last}=${config.sops.placeholder.${name}}"
+            )
+            |> lib.concatStringsSep ","
+          }
+        '';
+      };
+
+      nix.extraOptions = ''
+        !include ${config.sops.templates."nix-access-tokens.conf".path}
+      '';
     })
     {
       nix = {
