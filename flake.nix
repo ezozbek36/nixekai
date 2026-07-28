@@ -141,6 +141,18 @@
         hyprland.follows = "hyprland";
       };
     };
+
+    tangled = {
+      url = "git+https://tangled.org/ezozbek.tngl.sh/tangled-core";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+        gomod2nix.inputs = {
+          flake-utils.follows = "flake-utils";
+          falke-utils.inputs.systems.follows = "systems";
+        };
+      };
+    };
   };
 
   outputs =
@@ -153,13 +165,6 @@
           formatter = pkgs.nixfmt;
 
           devShells.default = import ./shell.nix inputs.self { inherit pkgs; };
-          devShells.kernelConfig = pkgs.mkShell {
-            packages = with pkgs; [
-              gcc
-              flex
-              bison
-            ];
-          };
         };
 
         ezConfigs = rec {

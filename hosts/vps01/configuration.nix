@@ -3,6 +3,7 @@
 
   imports =
     [ ]
+    ++ [ ./knot.nix ]
     ++ [ ./sshd.nix ]
     ++ [ ./disko.nix ]
     ++ [ ./users.nix ]
