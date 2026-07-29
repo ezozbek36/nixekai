@@ -220,6 +220,7 @@
               vps01 = {
                 arch = "x86_64";
                 class = "nixos";
+                nixpkgs = inputs.nixpkgs-unstable;
               };
             };
           };

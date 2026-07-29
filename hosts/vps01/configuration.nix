@@ -6,6 +6,7 @@
     ++ [ ./knot.nix ]
     ++ [ ./sshd.nix ]
     ++ [ ./disko.nix ]
+    ++ [ ./hydra.nix ]
     ++ [ ./users.nix ]
     ++ [ ./secrets.nix ]
     # ++ [ ./3proxy.nix ]

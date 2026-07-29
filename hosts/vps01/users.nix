@@ -3,6 +3,8 @@
 
   sops.secrets."users_passwd/ezozbek" = { };
 
+  services.userborn.enable = true;
+
   users = {
     defaultUserShell = pkgs.zsh;
     users = rec {

@@ -59,7 +59,7 @@
     })
     (lib.mkIf (config.nix.pinRegistries) {
       nix.registry =
-        inputs
+        lib.mkForce inputs
         |> lib.filterAttrs (name: lib.isType "flake")
         |> lib.mapAttrs (name: value: { flake = value; });
       nix.nixPath = config.nix.registry |> lib.mapAttrsToList (name: value: "${name}=flake:${name}");
