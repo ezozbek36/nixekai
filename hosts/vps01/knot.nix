@@ -14,6 +14,7 @@
       stateDir = "/var/lib/tangled-knot";
       repo.scanPath = "${stateDir}/repos";
       server = {
+        secureMode = true;
         listenAddr = "127.0.0.1:5555";
         hostname = "knot1.ezozbek.dev";
         owner = "did:plc:qdb2cht3jucz5y6we2wz556k";
@@ -30,10 +31,7 @@
         '';
       };
     };
-    openssh.settings = {
-      AllowUsers = lib.singleton config.services.tangled.knot.git.userName;
-      AllowGroups = lib.singleton config.services.tangled.knot.git.userName;
-    };
+    openssh.settings.AllowUsers = lib.singleton config.services.tangled.knot.git.userName;
   };
 
   networking.firewall.allowedTCPPorts = [
