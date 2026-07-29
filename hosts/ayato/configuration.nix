@@ -10,6 +10,7 @@
     ++ [ ezModules.ssh ]
     ++ [ ezModules.tpm2 ]
     ++ [ ./hardware.nix ]
+    ++ [ ezModules.fwupd ]
     ++ [ ./networking.nix ]
     ++ [ ezModules.gaming ]
     ++ [ ./boot-loader.nix ]
