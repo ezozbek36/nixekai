@@ -3,11 +3,11 @@
     enable = true;
     extraGSettingsOverrides = ''
       [org.gnome.mutter]
-      experimental-features=['scale-monitor-framebuffer', 'xwayland-native-scaling', 'autoclose-xwayland']
+      experimental-features=['autoclose-xwayland']
     '';
   };
 
-  environment.systemPackages = with pkgs; [ resources ];
+  environment.systemPackages = with pkgs; [ mission-center ];
 
   environment = {
     gnome.excludePackages = with pkgs; [
