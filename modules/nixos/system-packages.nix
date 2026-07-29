@@ -3,9 +3,9 @@
     git
     wget
     curl
-    btop
     pciutils
     usbutils
+    btop-cuda
     lm_sensors
     libva-utils
     vulkan-tools
