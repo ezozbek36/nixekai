@@ -8,16 +8,6 @@
     enable = true;
     installRemoteServer = false;
 
-    extensions = [
-      "xml"
-      "toml"
-      "just"
-      "meson"
-      "crates-lsp"
-      "git-firefly"
-      "material-icon-theme"
-    ];
-
     extraPackages = with pkgs; [ alejandra ];
 
     userSettings = {
@@ -161,36 +151,17 @@
 
   programs.zed-editor-extensions = {
     enable = true;
-    packages =
-      let
-        nixGrammar = pkgs.zed-grammars.nix_nix.overrideAttrs (oldAttrs: {
-          src = pkgs.fetchFromGitHub {
-            owner = "sebb3";
-            repo = "tree-sitter-nix";
-            rev = "1c903f05d9ff4b74f0836018729ecbefdd0fbdd0";
-            hash = "sha256-KQ00kJo350Xhj2pFaaYDcgXvv1CxunnhWIBZth2e5es=";
-          };
-        });
-
-        nixOverriden = pkgs.zed-extensions.nix.override {
-          zed-grammars = pkgs.zed-grammars // {
-            nix_nix = nixGrammar;
-          };
-        };
-        nix = nixOverriden.overrideAttrs (oldAttrs: {
-          src = pkgs.fetchFromGitHub {
-            owner = "sebb3";
-            repo = "nix";
-            rev = "926b7150ebba7631cd1ba9227445a3d7e7ec4665";
-            sha256 = "sha256-ukS2q0nt8kG5xMc+WiBHZMu66mkBjt9iAnj9gzlA9JQ=";
-          };
-        });
-      in
-      with pkgs.zed-extensions;
-      [
-        lua
-        kotlin
-      ]
-      ++ [ nix ];
+    packages = with pkgs.zed-extensions; [
+      lua
+      xml
+      nix
+      toml
+      just
+      meson
+      kotlin
+      crates-lsp
+      git-firefly
+      material-icon-theme
+    ];
   };
 }
