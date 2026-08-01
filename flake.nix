@@ -217,10 +217,7 @@
               ayato = {
                 arch = "x86_64";
                 class = "nixos";
-                tags = [
-                  "lix"
-                  "laptop"
-                ];
+                tags = ["laptop"];
               };
               noroi = {
                 arch = "x86_64";
