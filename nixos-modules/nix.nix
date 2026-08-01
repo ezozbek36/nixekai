@@ -88,7 +88,7 @@
       nix = {
         package =
           if config.nix.implementation == "nix" then
-            pkgs.nix
+            lib.mkDefault pkgs.nix
           else if config.nix.implementation == "lix" then
             pkgs.lixPackageSets.latest.lix
           else
