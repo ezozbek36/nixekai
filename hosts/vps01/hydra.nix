@@ -1,12 +1,13 @@
-{ config, ... }: {
+{ config, inputs, ... }: {
+  imports = with inputs.hydra.nixosModules; [ hydra ];
+
+  nix.package = config.services.hydra-dev.package.nix;
+
   services = {
-    hydra = {
+    hydra-dev = {
       enable = true;
-      maxServers = 4;
-      minSpareServers = 2;
-      maxSpareServers = 4;
       useSubstitutes = true;
-      listenHost = "localhost";
+      listenHost = "127.0.0.1";
       hydraURL = "https://hydra.ezozbek.dev";
       notificationSender = "hydra@localhost";
       extraConfig = ''
@@ -17,7 +18,7 @@
     };
     caddy.virtualHosts."hydra.ezozbek.dev" = {
       extraConfig = ''
-        reverse_proxy http://${config.services.hydra.listenHost}:${toString config.services.hydra.port}
+        reverse_proxy http://${config.services.hydra-dev.listenHost}:${toString config.services.hydra-dev.port}
       '';
     };
   };

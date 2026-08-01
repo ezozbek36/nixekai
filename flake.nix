@@ -153,6 +153,11 @@
         };
       };
     };
+
+    hydra = {
+      url = "github:NixOS/hydra";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -220,7 +225,6 @@
               vps01 = {
                 arch = "x86_64";
                 class = "nixos";
-                nixpkgs = inputs.nixpkgs-unstable;
               };
             };
           };
