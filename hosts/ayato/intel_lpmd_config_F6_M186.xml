@@ -117,7 +117,7 @@ for Intel Energy Optimizer (LPMD) daemon
 	<States>
 		<CPUFamily> 6 </CPUFamily>
 		<CPUModel> 186 </CPUModel>
-		<CPUConfig> 6P8E-45W </CPUConfig>
+		<CPUConfig> 12P8E0L-45W </CPUConfig>
 		<State>
 			<ID> 2 </ID>
 			<Name> LPM_LOW </Name>

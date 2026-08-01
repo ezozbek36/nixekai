@@ -767,6 +767,26 @@
         "type": "github"
       }
     },
+    "intel-lpmd": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1780884504,
+        "narHash": "sha256-smhI9ZUqPJ1LHhE0a01C38AVg9Sz7OnMaSLHDt44Rco=",
+        "owner": "dmfrpro",
+        "repo": "intel-lpmd-flake",
+        "rev": "226def6f3960505f2dfeabfb6b8299952ced856f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dmfrpro",
+        "repo": "intel-lpmd-flake",
+        "type": "github"
+      }
+    },
     "json-schema": {
       "inputs": {
         "flake-parts": [
@@ -1009,6 +1029,7 @@
         "hydra": "hydra",
         "hyprland": "hyprland",
         "hyprspace": "hyprspace",
+        "intel-lpmd": "intel-lpmd",
         "json-schema": "json-schema",
         "mac-style-plymouth": "mac-style-plymouth",
         "nix-cachyos-kernel": "nix-cachyos-kernel",

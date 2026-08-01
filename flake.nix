@@ -158,6 +158,11 @@
       url = "github:NixOS/hydra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    intel-lpmd = {
+      url = "github:dmfrpro/intel-lpmd-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

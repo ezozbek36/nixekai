@@ -1,4 +1,10 @@
-{ ... }: {
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+{
   powerManagement = {
     enable = true;
     powertop.enable = true;
@@ -7,6 +13,16 @@
 
   services.thermald = {
     enable = true;
+    debug = true;
+    package = pkgs.thermald.overrideAttrs (oldAttrs: rec {
+      version = "2.5.12";
+      src = pkgs.fetchFromGitHub {
+        owner = "intel";
+        repo = "thermal_daemon";
+        rev = "v${version}";
+        hash = "sha256-pppza3HVKl27K/dM4G5h9095N9Fw4a/7FZD95/2Llu8=";
+      };
+    });
   };
 
   services.power-profiles-daemon.enable = false;
@@ -24,7 +40,7 @@
       # ============================================
       # Run CPU at full speed all the time when charging
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+      CPU_ENERGY_PERF_POLICY_ON_AC = !config.services.throttled.enable |> lib.flip lib.mkIf "performance";
 
       # Allow CPU to use its entire speed range (0-100%)
       CPU_MIN_PERF_ON_AC = 0;
