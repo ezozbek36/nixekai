@@ -14,6 +14,7 @@
     ++ (with inputs.nixos-hardware.nixosModules; [ common-gpu-intel ])
     ++ (with inputs.nixos-hardware.nixosModules; [ common-pc-laptop ])
     ++ (with inputs.nixos-hardware.nixosModules; [ common-pc-laptop-ssd ])
+    ++ [ "${inputs.nixpkgs-unstable}/nixos/modules/services/scheduling/scx-loader.nix" ]
     ++ [ ];
 
   hardware.facter.reportPath = ./facter.json;
@@ -67,6 +68,46 @@
   systemd.services.intel-lpmd = {
     after = [ "irqbalance.service" ];
     wants = [ "irqbalance.service" ];
+  };
+
+  services.scx-loader = {
+    enable = true;
+    package = pkgs.unstable.scx-loader;
+    config = {
+      default_mode = "Auto";
+      default_sched = "scx_lavd";
+
+      scheds.scx_lavd = {
+        auto_mode = [
+          "--autopower"
+          "--pinned-slice-us"
+          "500"
+        ];
+        gaming_mode = [
+          "--performance"
+          "--slice-min-us"
+          "300"
+          "--slice-max-us"
+          "3000"
+          "--pinned-slice-us"
+          "300"
+        ];
+        lowlatency_mode = [
+          "--performance"
+          "--slice-max-us"
+          "2000"
+          "--slice-min-us"
+          "300"
+          "--pinned-slice-us"
+          "300"
+        ];
+        powersave_mode = [
+          "--powersave"
+          "--pinned-slice-us"
+          "500"
+        ];
+      };
+    };
   };
 
   fileSystems = {

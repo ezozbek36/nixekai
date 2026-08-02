@@ -3,27 +3,27 @@
   inputs,
   ...
 }:
-let
-  kernelPackage = pkgs.cachyosKernels.linux-cachyos-latest.override {
-    rt = true;
-    bbr3 = true;
-    kcfi = true;
-    lto = "full";
-    autofdo = true;
-    hzTicks = "500";
-    acpiCall = true;
-    autoModules = false;
-    cpusched = "rt-bore";
-    performanceGovernor = true;
-    processorOpt = "x86_64-v3";
-  };
-in
 {
   nixpkgs.overlays = [
     inputs.nix-cachyos-kernel.overlays.default
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packagesFor kernelPackage;
+  boot.kernelPackages =
+    pkgs.linuxPackagesFor
+    <| pkgs.cachyosKernels.linux-cachyos-latest.override
+    <| {
+      lto = "thin";
+      processorOpt = "x86_64-v3";
+
+      bbr3 = true;
+      ccHarder = true;
+      hzTicks = "500";
+      tickrate = "full";
+      cpusched = "bore";
+      hugepage = "madvise";
+      preemptType = "full";
+    };
+
   boot.kernelPatches = [
     {
       name = "[PATCH] KVM: x86/tdx: Do not print error message on non-present feature";
