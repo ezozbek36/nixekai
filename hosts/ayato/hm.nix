@@ -7,6 +7,7 @@
     extraSpecialArgs = { inherit inputs; };
     users.ezozbek = import ../../modules/home-manager;
     sharedModules = [
+      inputs.gram-editor.outPath
       inputs.stylix.homeModules.stylix
       inputs.zen-browser.homeModules.beta
       inputs.json-schema.homeModules.default

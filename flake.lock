@@ -375,6 +375,18 @@
         "type": "github"
       }
     },
+    "gram-editor": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-QQLW2Hl1JWEjiM2npnIXiRvvw49JHnYNV20846JAQVg=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/mikaeladev/home-manager/e6738a65f0dafdc80be4299cdec8e09bb955b2dc/modules/programs/gram.nix"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/mikaeladev/home-manager/e6738a65f0dafdc80be4299cdec8e09bb955b2dc/modules/programs/gram.nix"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -1025,6 +1037,7 @@
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils",
+        "gram-editor": "gram-editor",
         "home-manager": "home-manager",
         "hydra": "hydra",
         "hyprland": "hyprland",
@@ -1170,15 +1183,15 @@
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1785537671,
-        "narHash": "sha256-i8AdoRLhoh05jpmrGifLfIEGorlxp2hdGjMsojkKBuE=",
-        "owner": "nix-community",
+        "lastModified": 1785677291,
+        "narHash": "sha256-7or1JPiCXtIWfMpQYQFuZQblP9W1F3jw0VZYmLHiorw=",
+        "owner": "ezozbek36",
         "repo": "stylix",
-        "rev": "06c8a9425f1c0248dc9b84c1e2c9001fa41d7d0a",
+        "rev": "ace6b540562448874e54ead7e46f2e84763f393f",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "ezozbek36",
         "ref": "release-26.05",
         "repo": "stylix",
         "type": "github"

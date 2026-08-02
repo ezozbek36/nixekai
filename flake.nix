@@ -28,7 +28,7 @@
     };
 
     stylix = {
-      url = "github:nix-community/stylix/release-26.05";
+      url = "github:ezozbek36/stylix/release-26.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         systems.follows = "systems";
@@ -163,6 +163,11 @@
       url = "github:dmfrpro/intel-lpmd-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    gram-editor = {
+      url = "https://raw.githubusercontent.com/mikaeladev/home-manager/e6738a65f0dafdc80be4299cdec8e09bb955b2dc/modules/programs/gram.nix";
+      flake = false;
+    };
   };
 
   outputs =
@@ -256,12 +261,12 @@
       }
     );
 
-  # nixConfig = {
-  #   extra-substituters = [
-  #     "ssh-ng://builder@10.10.1.223"
-  #   ];
-  #   extra-trusted-public-keys = [
-  #     "builder@10.10.1.223:f/5cKP/gqo0I5jjAIuR1TSgxtdHlrg4vJe+cE8LrkMA="
-  #   ];
-  # };
+  nixConfig = {
+    extra-substituters = [
+      "ssh-ng://builder@eu.nixbuild.net"
+    ];
+    extra-trusted-public-keys = [
+      "nixbuild.net/F4NKRA-1:vljbtA8FE2oDaoxdcHC26e4a9hoN4eUi23p61CNPYXU="
+    ];
+  };
 }

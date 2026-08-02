@@ -1,8 +1,8 @@
 { pkgs, ... }: {
   stylix = {
     enable = true;
-    autoEnable = false;
     polarity = "dark";
+    autoEnable = false;
     image = ../../assets/wallpapers/ye-graduation-album-cover.png;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-macchiato.yaml";
 
@@ -17,6 +17,10 @@
       spicetify.enable = true;
       gnome-text-editor.enable = true;
       zed = {
+        enable = true;
+        fonts.enable = false;
+      };
+      gram = {
         enable = true;
         fonts.enable = false;
       };
