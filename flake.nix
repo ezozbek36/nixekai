@@ -168,6 +168,11 @@
       url = "https://raw.githubusercontent.com/mikaeladev/home-manager/e6738a65f0dafdc80be4299cdec8e09bb955b2dc/modules/programs/gram.nix";
       flake = false;
     };
+
+    nixbot = {
+      url = "github:Mic92/nixbot";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -222,7 +227,7 @@
               ayato = {
                 arch = "x86_64";
                 class = "nixos";
-                tags = ["laptop"];
+                tags = [ "laptop" ];
               };
               noroi = {
                 arch = "x86_64";

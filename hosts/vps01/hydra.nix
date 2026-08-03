@@ -1,4 +1,5 @@
-{ config, inputs, ... }: {
+{ config, inputs, ... }:
+{
   imports = with inputs.hydra.nixosModules; [ hydra ];
 
   nix.package = config.services.hydra-dev.package.nix;
@@ -10,6 +11,7 @@
       listenHost = "127.0.0.1";
       hydraURL = "https://hydra.ezozbek.dev";
       notificationSender = "hydra@localhost";
+      dbi = "dbi:Pg:dbname=hydra;host=/run/postgresql;user=hydra;";
       extraConfig = ''
         <git-input>
           timeout = 3600

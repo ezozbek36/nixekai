@@ -2,7 +2,10 @@
   services.openssh = {
     enable = true;
     settings = {
-      AllowUsers = ["root" "ezozbek"];
+      AllowUsers = [
+        "root"
+        "ezozbek"
+      ];
     };
   };
 }
