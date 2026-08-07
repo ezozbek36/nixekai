@@ -1,4 +1,10 @@
-{ config, ezModules, ... }: {
+{
+  config,
+  inputs,
+  ezModules,
+  ...
+}:
+{
   system.stateVersion = "25.11";
 
   imports =
@@ -14,9 +20,15 @@
     ++ [ ./networking.nix ]
     ++ [ ezModules.gaming ]
     ++ [ ./boot-loader.nix ]
-    ++ [ ezModules.cachyos-kernel ]
     ++ [ ezModules.remote-builders ]
+    # ++ [ ezModules.cachyos-kernel ]
     ++ [ ];
+
+  # programs.nix-data = {
+  #   enable = true;
+  #   hostname = "ayato";
+  #   flake = "/home/ezozbek/nix/flake.nix";
+  # };
 
   sops.secrets."ssh_keys/eu.nixbuild.net" = {
     owner = "ezozbek";
@@ -24,7 +36,7 @@
   };
 
   ezConfigs.remote-builders = {
-    enable = true;
+    enable = false;
     useBuildersSubstitutes = true;
     builders = {
       "eu.nixbuild.net" = {

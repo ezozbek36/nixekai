@@ -13,6 +13,5 @@ pkgs.mkShellNoCC {
     ssh-to-age
     acpica-tools
     age-plugin-tpm
-    wireguard-tools
   ];
 }

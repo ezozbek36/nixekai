@@ -227,7 +227,7 @@
               ayato = {
                 arch = "x86_64";
                 class = "nixos";
-                tags = [ "laptop" ];
+                tags = [ "lix" "laptop" ];
               };
               noroi = {
                 arch = "x86_64";
@@ -266,12 +266,12 @@
       }
     );
 
-  nixConfig = {
-    extra-substituters = [
-      "ssh-ng://builder@eu.nixbuild.net"
-    ];
-    extra-trusted-public-keys = [
-      "nixbuild.net/F4NKRA-1:vljbtA8FE2oDaoxdcHC26e4a9hoN4eUi23p61CNPYXU="
-    ];
-  };
+  # nixConfig = {
+  #   extra-substituters = [
+  #     "ssh-ng://builder@eu.nixbuild.net"
+  #   ];
+  #   extra-trusted-public-keys = [
+  #     "nixbuild.net/F4NKRA-1:vljbtA8FE2oDaoxdcHC26e4a9hoN4eUi23p61CNPYXU="
+  #   ];
+  # };
 }

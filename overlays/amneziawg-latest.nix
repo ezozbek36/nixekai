@@ -1,6 +1,6 @@
 final: prev: {
+  amneziawg-tools = final.unstable.amneziawg-tools;
   linuxPackages = prev.linuxPackages // {
-    amneziawg-tools = final.unstable.amneziawg-tools;
     amneziawg = final.unstable.linuxPackages.amneziawg;
   };
 }

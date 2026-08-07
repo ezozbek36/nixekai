@@ -7,7 +7,7 @@
           hash = "sha256-WB8QqUnc/wDwxhFRxoGz1tw2qzMdX4LJfeErQBPipnk=";
         }
         |> (x: x.outPath)
-        |> lib.flip final.callPackage {};
+        |> lib.flip final.callPackage { };
     }
   );
 
@@ -20,6 +20,12 @@
   };
 
   environment.systemPackages = with pkgs; [ mission-center ];
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="powercap" KERNEL=="intel-rapl*" ACTION=="add", \
+      RUN+="${lib.getExe' pkgs.coreutils "chgrp"} -R wheel /sys/%p/'", \
+      RUN+="${lib.getExe' pkgs.coreutils "chmod"} -R g+r /sys/%p/"
+  '';
 
   environment = {
     gnome.excludePackages = with pkgs; [

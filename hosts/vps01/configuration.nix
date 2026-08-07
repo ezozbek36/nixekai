@@ -1,4 +1,10 @@
-{ ... }: {
+{
+  lib,
+  config,
+  inputs,
+  ...
+}:
+{
   system.stateVersion = "23.06";
 
   imports =
@@ -16,4 +22,13 @@
     ++ [ ./networking.nix ]
     ++ [ ./boot-loader.nix ]
     ++ [ ];
+
+  nixpkgs.overlays = lib.singleton (
+    final: prev: {
+      unstable = import inputs.nixpkgs-unstable {
+        config = config.nixpkgs.config;
+        system = config.nixpkgs.hostPlatform.system;
+      };
+    }
+  );
 }

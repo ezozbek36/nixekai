@@ -10,7 +10,9 @@
           hash = "sha256-TkF6Bdg4iFnjlLnRysU2+jXlfpg/3yN/hugntaI2xYE=";
         };
 
-        patches = oldAttrs.patches |> lib.filter (patch: lib.baseNameOf patch != "0004-Get-the-efi-app-from-fwupd-efi.patch");
+        patches =
+          oldAttrs.patches
+          |> lib.filter (patch: lib.baseNameOf patch != "0004-Get-the-efi-app-from-fwupd-efi.patch");
       });
     }
   );
