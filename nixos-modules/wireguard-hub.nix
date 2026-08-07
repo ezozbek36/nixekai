@@ -5,43 +5,30 @@
   ...
 }:
 {
+  nixpkgs.overlays = lib.singleton (import ../overlays/amneziawg-latest.nix);
+
   boot.kernel.sysctl."net.ipv4.ip_forward" = true;
 
   sops.secrets.wireguard = {
-    mode = "640";
-    owner = "systemd-network";
-    group = "systemd-network";
+    mode = "0640";
+    reloadUnits = [ "wg-quick-wg0.service" ];
+    restartUnits = [ "wg-quick-wg0.service" ];
   };
 
   networking = {
     firewall.allowedUDPPorts = [ topology.port ];
-  };
-
-  systemd.network = {
-    networks."50-wg0" = {
-      matchConfig.Name = "wg0";
+    wg-quick.interfaces.wg0 = {
+      type = "amneziawg";
+      listenPort = topology.port;
       address = [ "${topology.hub.tunnelIP}/24" ];
-      networkConfig = {
-        IPv4Forwarding = true;
-      };
-    };
-    netdevs."50-wg0" = {
-      netdevConfig = {
-        Name = "wg0";
-        MTUBytes = 1320;
-        Kind = "wireguard";
-      };
-      wireguardConfig = {
-        ListenPort = topology.port;
-        PrivateKeyFile = config.sops.secrets.wireguard.path;
-      };
-      wireguardPeers =
+      privateKeyFile = config.sops.secrets.wireguard.path;
+      peers =
         topology.spokes
         |> lib.mapAttrsToList (
           name: spoke: {
-            PersistentKeepalive = 20;
-            PublicKey = spoke.publicKey;
-            AllowedIPs = [ "${spoke.tunnelIP}/32" ];
+            persistentKeepalive = 20;
+            publicKey = spoke.publicKey;
+            allowedIPs = [ "${spoke.tunnelIP}/32" ];
           }
         );
     };
