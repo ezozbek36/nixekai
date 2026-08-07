@@ -1,4 +1,4 @@
-{ ... }: rec {
+{ config, ... }: {
   networking = {
     networkmanager = {
       enable = true;
@@ -13,11 +13,9 @@
   services.resolved = {
     enable = true;
     settings.Resolve = {
-      DNSSEC = true;
-      DNSOverTLS = true;
       Domains = [ "~." ];
       MulticastDNS = true;
-      FallbackDNS = networking.nameservers;
+      FallbackDNS = config.networking.nameservers;
     };
   };
 }
