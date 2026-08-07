@@ -21,14 +21,15 @@
     ++ [ ezModules.gaming ]
     ++ [ ./boot-loader.nix ]
     ++ [ ezModules.remote-builders ]
+    ++ [ inputs.nix-data.nixosModules.nix-data ]
     # ++ [ ezModules.cachyos-kernel ]
     ++ [ ];
 
-  # programs.nix-data = {
-  #   enable = true;
-  #   hostname = "ayato";
-  #   flake = "/home/ezozbek/nix/flake.nix";
-  # };
+  programs.nix-data = {
+    enable = true;
+    hostname = "ayato";
+    flake = "/home/ezozbek/nix/flake.nix";
+  };
 
   sops.secrets."ssh_keys/eu.nixbuild.net" = {
     owner = "ezozbek";

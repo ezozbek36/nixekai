@@ -173,6 +173,17 @@
       url = "github:Mic92/nixbot";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-data = {
+      url = "git+https://git.oss.uzinfocom.uz/xinux/nix-data?shallow=1&ref=main";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        xinux-lib.inputs = {
+          flake-parts.follows = "flake-parts";
+          flake-compat.follows = "flake-compat";
+        };
+      };
+    };
   };
 
   outputs =
@@ -198,6 +209,7 @@
             earlyModuleArgs = {
               topology = {
                 port = 51820;
+                spokePort = 443;
                 subnet = "100.64.0.0/24";
 
                 hub = {
