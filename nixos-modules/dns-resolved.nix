@@ -12,9 +12,6 @@
   services.resolved = {
     enable = true;
     settings.Resolve = {
-      LLMNR = false;
-      DNSSEC = true;
-      DNSOverTLS = true;
       Domains = [ "~." ];
       MulticastDNS = true;
       FallbackDNS = networking.nameservers;
