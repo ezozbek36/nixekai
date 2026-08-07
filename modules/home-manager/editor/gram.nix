@@ -2,21 +2,7 @@
 {
   programs.gram = {
     enable = true;
-    package = pkgs.unstable.gram.overrideAttrs rec {
-      version = "3.2.0";
-
-      src = pkgs.fetchFromCodeberg {
-        owner = "GramEditor";
-        repo = "gram";
-        tag = version;
-        hash = "sha256-AzS9+7HrWbPpjQpmTxwFbOHiLCX7Qzj+vE4zzSJQBRI=";
-      };
-
-      cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-        inherit src;
-        hash = "sha256-Setp4mO6PFnLbpjM1UdqZNHfNNk59M2jj9NtwQFXm3A=";
-      };
-    };
+    package = pkgs.unstable.gram;
     extensionPackages = with pkgs.zed-extensions; [
       lua
       xml
@@ -143,6 +129,12 @@
             env = {
               JAVA_OPTS = "-Xmx8g";
             };
+          };
+        };
+        clangd = {
+          binary = {
+            ignore_system_version = false;
+            path = lib.getExe' pkgs.clang-tools "clangd";
           };
         };
       };
