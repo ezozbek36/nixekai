@@ -8,7 +8,7 @@
     enable = true;
     installRemoteServer = false;
 
-    extraPackages = with pkgs; [ alejandra ];
+    extraPackages = with pkgs; [ blueprint-compiler ];
 
     userSettings = {
       disable_ai = true;
@@ -159,6 +159,7 @@
       just
       meson
       kotlin
+      blueprint
       crates-lsp
       git-firefly
       material-icon-theme
