@@ -156,7 +156,10 @@
 
     hydra = {
       url = "github:NixOS/hydra";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "nixpkgs";
+      };
     };
 
     intel-lpmd = {
@@ -171,7 +174,10 @@
 
     nixbot = {
       url = "github:Mic92/nixbot";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "nixpkgs";
+      };
     };
 
     nix-data = {
@@ -179,10 +185,16 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         xinux-lib.inputs = {
+          treefmt-nix.follows = "treefmt-nix";
           flake-parts.follows = "flake-parts";
           flake-compat.follows = "flake-compat";
         };
       };
+    };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -191,11 +203,21 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } (
       { lib, ... }: {
         systems = import inputs.systems;
-        imports = [ inputs.ez-configs.flakeModule ];
+        imports = with inputs; [
+          ez-configs.flakeModule
+          treefmt-nix.flakeModule
+        ];
         perSystem = { pkgs, ... }: {
-          formatter = pkgs.nixfmt;
-
           devShells.default = import ./shell.nix inputs.self { inherit pkgs; };
+
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs = {
+              nixfmt.enable = true;
+              yamlfmt.enable = true;
+              jsonfmt.enable = true;
+            };
+          };
         };
 
         ezConfigs = rec {
@@ -239,7 +261,10 @@
               ayato = {
                 arch = "x86_64";
                 class = "nixos";
-                tags = [ "lix" "laptop" ];
+                tags = [
+                  "lix"
+                  "laptop"
+                ];
               };
               noroi = {
                 arch = "x86_64";
@@ -250,18 +275,20 @@
                 arch = "x86_64";
                 class = "nixos";
               };
+              test = {
+                arch = "x86_64";
+                class = "nixos";
+              };
             };
           };
 
           perClass = class: ezModules: {
-            modules =
-              [ ] ++ [ ezModules.bluetoth ] ++ lib.optionals (class == "nixos") [ ezModules.nix ] ++ [ ];
+            modules = [ ezModules.bluetoth ] ++ lib.optionals (class == "nixos") [ ezModules.nix ];
           };
 
           perTag = tag: ezModules: {
             modules =
-              [ ]
-              ++ lib.optionals (tag == "performance-v3") [ ezModules.performance-v3 ]
+              lib.optionals (tag == "performance-v3") [ ezModules.performance-v3 ]
               ++ lib.optionals (tag == "laptop") [
                 ezModules.openrgb
                 ezModules.power-management
@@ -271,8 +298,7 @@
                   nix.implementation = "lix";
                   nix.patchLixPipeOperator = true;
                 }
-              ]
-              ++ [ ];
+              ];
           };
         };
       }
