@@ -1,3 +1,3 @@
 { pkgs, ... }: {
-  home.packages = with pkgs.unstable; [ android-studio ];
+  home.packages = with pkgs.unstable; [ ];
 }

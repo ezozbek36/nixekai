@@ -1,5 +1,5 @@
 { ezModules, ... }: {
-  imports = [ ezModules.dns-resolved ] ++ [ ezModules.wireguard-spoke ];
+  imports = [ ezModules.dns-resolved ] ++ [ ];
 
   networking.networkmanager.enable = true;
 }

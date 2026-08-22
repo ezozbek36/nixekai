@@ -4,6 +4,7 @@
     ./browser
     ./matrix.nix
     ./spotify.nix
+    ./discord.nix
     ./fastfetch.nix
     ./telegram-desktop.nix
   ];

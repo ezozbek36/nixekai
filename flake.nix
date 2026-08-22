@@ -9,10 +9,10 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nix-cachyos-kernel = {
-      url = "github:xddxdd/nix-cachyos-kernel";
+      url = "github:xddxdd/nix-cachyos-kernel/release";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs-unstable";
         flake-compat.follows = "flake-compat";
       };
     };
@@ -42,9 +42,9 @@
     };
 
     zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
+      url = "github:0xc000022070/zen-browser-flake/beta";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs-unstable";
         home-manager.follows = "home-manager";
       };
     };
@@ -122,35 +122,6 @@
         nixpkgs.follows = "nixpkgs";
         systems.follows = "systems";
         flake-parts.follows = "flake-parts";
-      };
-    };
-
-    hyprland = {
-      url = "github:hyprwm/Hyprland/v0.55.2";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        systems.follows = "systems";
-        pre-commit-hooks.inputs.flake-compat.follows = "flake-compat";
-      };
-    };
-
-    hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-      inputs = {
-        systems.follows = "systems";
-        hyprland.follows = "hyprland";
-      };
-    };
-
-    tangled = {
-      url = "git+https://tangled.org/ezozbek.tngl.sh/tangled-core";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-compat.follows = "flake-compat";
-        gomod2nix.inputs = {
-          flake-utils.follows = "flake-utils";
-          falke-utils.inputs.systems.follows = "systems";
-        };
       };
     };
 
@@ -304,12 +275,12 @@
       }
     );
 
-  # nixConfig = {
-  #   extra-substituters = [
-  #     "ssh-ng://builder@eu.nixbuild.net"
-  #   ];
-  #   extra-trusted-public-keys = [
-  #     "nixbuild.net/F4NKRA-1:vljbtA8FE2oDaoxdcHC26e4a9hoN4eUi23p61CNPYXU="
-  #   ];
-  # };
+  nixConfig = {
+    extra-substituters = [
+      "https://cache.xinux.uz"
+    ];
+    extra-trusted-public-keys = [
+      "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0="
+    ];
+  };
 }

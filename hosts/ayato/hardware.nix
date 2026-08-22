@@ -28,8 +28,8 @@
     final: prev: {
       throttled =
         final.fetchurl {
-          url = "https://raw.githubusercontent.com/ooonea/nixpkgs/refs/heads/throttled-0.12.2/pkgs/by-name/th/throttled/package.nix";
-          hash = "sha256-d9uNtdrdxTWCv5IUNKoYcO2tBtCRQQOSw0j3WNhYP2o=";
+          url = "https://raw.githubusercontent.com/NixOS/nixpkgs/45a37e89304851dfcd1f67b193418a7347f467cb/pkgs/by-name/th/throttled/package.nix";
+          hash = "sha256-PbT27h4YD7KbM2XXe2FJ7ZFFaknUDbnv+b90neRBU0I=";
         }
         |> (x: x.outPath)
         |> lib.flip final.callPackage { };

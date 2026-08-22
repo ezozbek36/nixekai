@@ -11,9 +11,7 @@
     overlays = [
       inputs.spicetify-nix.overlays.default
       inputs.zed-extensions.overlays.default
-      inputs.nix-cachyos-kernel.overlays.default
       inputs.mac-style-plymouth.overlays.default
-      inputs.hyprland.overlays.hyprland-packages
       (
         final: prev:
         let
@@ -21,9 +19,6 @@
         in
         {
           tuigreet = inputs.tuigreet.packages.${system}.default;
-          hyprlandPlugins = (prev.hyprlandPlugins or { }) // {
-            hyprspace = inputs.hyprspace.packages.${system}.default;
-          };
 
           unstable = import inputs.nixpkgs-unstable {
             inherit system;
@@ -56,6 +51,7 @@
         "spotify"
         "steam"
         "steam-unwrapped"
+        "discord"
       ];
   };
 }

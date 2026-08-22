@@ -20,9 +20,9 @@
     ++ [ ./networking.nix ]
     ++ [ ezModules.gaming ]
     ++ [ ./boot-loader.nix ]
+    ++ [ ezModules.cachyos-kernel ]
     ++ [ ezModules.remote-builders ]
     ++ [ inputs.nix-data.nixosModules.nix-data ]
-    # ++ [ ezModules.cachyos-kernel ]
     ++ [ ];
 
   programs.nix-data = {
