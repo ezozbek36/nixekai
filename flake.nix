@@ -179,7 +179,7 @@
           treefmt-nix.flakeModule
         ];
         perSystem = { pkgs, ... }: {
-          devShells.default = import ./shell.nix inputs.self { inherit pkgs; };
+          devShells.default = import ./shell.nix { inherit pkgs; };
 
           treefmt = {
             projectRootFile = "flake.nix";

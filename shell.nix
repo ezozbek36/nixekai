@@ -1,4 +1,3 @@
-flake:
 { pkgs, ... }:
 pkgs.mkShellNoCC {
   buildInputs = with pkgs; [
