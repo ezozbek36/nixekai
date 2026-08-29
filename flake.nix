@@ -129,7 +129,7 @@
       url = "github:NixOS/hydra";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        treefmt-nix.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
       };
     };
 
@@ -155,10 +155,16 @@
       url = "git+https://git.oss.uzinfocom.uz/xinux/nix-data?shallow=1&ref=main";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        git-hooks.follows = "git-hooks";
+        treefmt-nix.follows = "treefmt-nix";
         xinux-lib.inputs = {
+          git-hooks.follows = "git-hooks";
           treefmt-nix.follows = "treefmt-nix";
           flake-parts.follows = "flake-parts";
           flake-compat.follows = "flake-compat";
+          flake-utils-plus.inputs = {
+            flake-utils.follows = "flake-utils";
+          };
         };
       };
     };
@@ -166,6 +172,14 @@
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+      };
     };
   };
 
@@ -175,21 +189,41 @@
       { lib, ... }: {
         systems = import inputs.systems;
         imports = with inputs; [
+          git-hooks.flakeModule
           ez-configs.flakeModule
           treefmt-nix.flakeModule
         ];
-        perSystem = { pkgs, ... }: {
-          devShells.default = import ./shell.nix { inherit pkgs; };
+        perSystem =
+          {
+            pkgs,
+            config,
+            system,
+            ...
+          }:
+          {
+            _module.args.pkgs = import inputs.nixpkgs-unstable { inherit system; };
 
-          treefmt = {
-            projectRootFile = "flake.nix";
-            programs = {
-              nixfmt.enable = true;
-              yamlfmt.enable = true;
-              jsonfmt.enable = true;
+            treefmt = {
+              projectRootFile = "flake.nix";
+              programs = {
+                nixfmt.enable = true;
+                yamlfmt.enable = true;
+                jsonfmt.enable = true;
+              };
             };
+
+            pre-commit = {
+              check.enable = true;
+              settings = {
+                package = pkgs.prek;
+                hooks = {
+                  treefmt.enable = true;
+                };
+              };
+            };
+
+            devShells.default = import ./shell.nix { inherit pkgs config; };
           };
-        };
 
         ezConfigs = rec {
           root = ./.;

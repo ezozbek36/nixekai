@@ -1,5 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 pkgs.mkShellNoCC {
+  inherit (config.pre-commit) shellHook;
+
   buildInputs = with pkgs; [
     nixd
     statix

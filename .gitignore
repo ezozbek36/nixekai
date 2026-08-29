@@ -1,7 +1,5 @@
 .direnv
-
-# Flake lock file (optional - some prefer to commit this)
-# flake.lock
+.pre-commit-config.yaml
 
 # Result symlinks from nix build
 result
