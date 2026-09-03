@@ -223,6 +223,8 @@
             };
 
             devShells.default = import ./shell.nix { inherit pkgs config; };
+
+            packages.riff = pkgs.callPackage ./packages/riff.nix { };
           };
 
         ezConfigs = rec {
