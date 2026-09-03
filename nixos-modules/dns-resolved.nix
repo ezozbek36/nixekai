@@ -3,10 +3,6 @@
     networkmanager = {
       dns = "systemd-resolved";
     };
-    nameservers = [
-      "1.1.1.1#one.one.one.one"
-      "1.0.0.1#one.one.one.one"
-    ];
   };
 
   services.resolved = {
@@ -14,7 +10,10 @@
     settings.Resolve = {
       Domains = [ "~." ];
       MulticastDNS = true;
-      FallbackDNS = networking.nameservers;
+      FallbackDNS = [
+        "1.1.1.1#one.one.one.one"
+        "1.0.0.1#one.one.one.one"
+      ];
     };
   };
 }
