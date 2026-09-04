@@ -114,14 +114,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1788423478,
-        "narHash": "sha256-7QtFa7x0nQvaNRh2TE2srgErekBIo4FqhOc3dsp6uiE=",
-        "path": "/home/ezozbek/OpenSource/ez-configs",
-        "type": "path"
+        "lastModified": 1788505214,
+        "narHash": "sha256-kjQDBc9hg6c59EEOZYX3su0XBdmEcdAlJxAMZAiEchw=",
+        "owner": "ezozbek36",
+        "repo": "ez-configs",
+        "rev": "636947089aee73ffce04c24dfcd2687cbe14ba62",
+        "type": "github"
       },
       "original": {
-        "path": "/home/ezozbek/OpenSource/ez-configs",
-        "type": "path"
+        "owner": "ezozbek36",
+        "ref": "refactor",
+        "repo": "ez-configs",
+        "type": "github"
       }
     },
     "firefox-addons": {

@@ -75,7 +75,7 @@
     };
 
     ez-configs = {
-      url = "path:/home/ezozbek/OpenSource/ez-configs";
+      url = "github:ezozbek36/ez-configs/refactor";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
@@ -279,10 +279,6 @@
                 tags = [ "lix" ];
               };
               vps01 = {
-                arch = "x86_64";
-                class = "nixos";
-              };
-              test = {
                 arch = "x86_64";
                 class = "nixos";
               };

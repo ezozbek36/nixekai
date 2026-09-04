@@ -11,7 +11,7 @@
       listenHost = "127.0.0.1";
       hydraURL = "https://hydra.ezozbek.dev";
       notificationSender = "hydra@localhost";
-      dbUrl = "postgres://hydra@127.0.0.1:${config.services.postgresql.settings.port}/hydra";
+      dbUrl = "postgres://hydra@127.0.0.1:5432/hydra";
       extraConfig = ''
         <git-input>
           timeout = 3600

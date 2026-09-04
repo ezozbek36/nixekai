@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   services.postgresql = {
     enable = true;
+    enableJIT = true;
     package = pkgs.postgresql_18;
     ensureDatabases = [
       "hydra"
