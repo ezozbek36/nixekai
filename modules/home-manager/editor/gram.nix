@@ -3,14 +3,20 @@
   programs.gram = {
     enable = true;
     package = pkgs.unstable.gram;
+    extraPackages = with pkgs; [ esbonio ];
     extensionPackages = with pkgs.zed-extensions; [
       lua
       xml
       nix
+      rst
       toml
       just
+      perl
+      make
       meson
       kotlin
+      kconfig
+      devicetree
       crates-lsp
       git-firefly
       material-icon-theme
@@ -135,6 +141,32 @@
           binary = {
             ignore_system_version = false;
             path = lib.getExe' pkgs.clang-tools "clangd";
+          };
+        };
+        rst = {
+          binary = {
+            ignore_system_version = false;
+          };
+        };
+        perl = {
+          binary = {
+            ignore_system_version = false;
+          };
+        };
+        make = {
+          binary = {
+            ignore_system_version = false;
+          };
+        };
+        kconfig = {
+          binary = {
+            ignore_system_version = false;
+          };
+        };
+        dts-language-server = {
+          binary = {
+            ignore_system_version = false;
+            path = lib.getExe pkgs.dts-lsp;
           };
         };
       };
