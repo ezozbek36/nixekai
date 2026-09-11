@@ -184,7 +184,7 @@
   };
 
   outputs =
-    inputs:
+    inputs@{ self, ... }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } (
       { lib, ... }: {
         systems = import inputs.systems;
@@ -224,7 +224,10 @@
 
             devShells.default = import ./shell.nix { inherit pkgs config; };
 
-            packages.riff = pkgs.callPackage ./packages/riff.nix { };
+            packages = {
+              riff = pkgs.callPackage ./packages/riff.nix { };
+              esbonio = pkgs.callPackage ./packages/esbonio.nix { };
+            };
           };
 
         ezConfigs = rec {
@@ -286,7 +289,11 @@
           };
 
           perClass = class: ezModules: {
-            modules = [ ezModules.bluetoth ] ++ lib.optionals (class == "nixos") [ ezModules.nix ];
+            modules = [
+              ezModules.bluetoth
+            ]
+            ++ (lib.optionals (class == "nixos") [ ezModules.nix ])
+            ++ lib.singleton { nixpkgs.overlays = lib.singleton (final: prev: self.packages.x86_64-linux); };
           };
 
           perTag = tag: ezModules: {
