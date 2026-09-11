@@ -5,13 +5,20 @@
   nix.package = config.services.hydra-dev.package.nix;
 
   services = {
+    postgresql = {
+      identMap = ''
+        hydra-users hydra-www hydra
+        hydra-users hydra hydra
+      '';
+      authentication = "local hydra all ident map=hydra-users";
+    };
     hydra-dev = {
       enable = true;
       useSubstitutes = true;
       listenHost = "127.0.0.1";
       hydraURL = "https://hydra.ezozbek.dev";
       notificationSender = "hydra@localhost";
-      dbUrl = "postgres://hydra@127.0.0.1:5432/hydra";
+      dbUrl = "postgres://hydra@%2Frun%2Fpostgresql:5436/hydra";
       extraConfig = ''
         <git-input>
           timeout = 3600

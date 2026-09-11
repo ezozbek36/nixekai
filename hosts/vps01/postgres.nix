@@ -17,5 +17,8 @@
         ensureDBOwnership = true;
       }
     ];
+    settings = {
+      port = 5436;
+    };
   };
 }
