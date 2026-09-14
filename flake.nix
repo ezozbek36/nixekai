@@ -139,7 +139,7 @@
     };
 
     gram-editor = {
-      url = "https://raw.githubusercontent.com/mikaeladev/home-manager/e6738a65f0dafdc80be4299cdec8e09bb955b2dc/modules/programs/gram.nix";
+      url = "https://raw.githubusercontent.com/nix-community/home-manager/a49f50d59510d49b0e1c48090b6e504975beeda9/modules/programs/gram.nix";
       flake = false;
     };
 
