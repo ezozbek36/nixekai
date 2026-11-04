@@ -29,6 +29,7 @@
     enable = true;
     hostname = "ayato";
     flake = "/home/ezozbek/nix/flake.nix";
+    systemconfig = "/home/ezozbek/nix/hosts/ayato/configuration.nix";
   };
 
   sops.secrets."ssh_keys/eu.nixbuild.net" = {

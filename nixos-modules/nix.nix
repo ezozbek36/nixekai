@@ -67,21 +67,20 @@
     })
     (lib.mkIf (config.nix.includeAccessTokens) {
       sops.templates."nix-access-tokens.conf" = {
+        mode = "0440";
+        group = config.users.groups.keys.name;
         restartUnits = [ "nix-daemon.service" ];
-        content = ''
-          access-tokens = ${
-            config.sops.secrets
-            |> lib.filterAttrs (name: value: lib.match "^access_tokens/.+$" name != null)
-            |> lib.mapAttrsToList (
-              name: value: "${name |> lib.splitString "/" |> lib.last}=${config.sops.placeholder.${name}}"
-            )
-            |> lib.concatStringsSep ","
-          }
-        '';
+        content =
+          config.sops.secrets
+          |> lib.filterAttrs (name: value: lib.match "^access_tokens/.+$" name != null)
+          |> lib.mapAttrsToList (
+            name: value: "${name |> lib.splitString "/" |> lib.last}=${config.sops.placeholder.${name}}"
+          )
+          |> lib.concatStringsSep ",";
       };
 
       nix.extraOptions = ''
-        !include ${config.sops.templates."nix-access-tokens.conf".path}
+        access-tokens = !include ${config.sops.templates."nix-access-tokens.conf".path}
       '';
     })
     {
@@ -109,8 +108,8 @@
             )
           ];
 
-          substituters = [ "https://cache.xinux.uz" ];
-          trusted-public-keys = [ "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0=" ];
+          # substituters = [ "https://cache.xinux.uz" ];
+          # trusted-public-keys = [ "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0=" ];
         };
       };
     }

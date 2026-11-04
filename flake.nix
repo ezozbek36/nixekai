@@ -181,6 +181,24 @@
         flake-compat.follows = "flake-compat";
       };
     };
+
+    relago = {
+      url = "git+https://git.oss.uzinfocom.uz/xinux/relago.git?ref=main&shallow=1";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        treefmt-nix.follows = "treefmt-nix";
+        git-hooks-nix.follows = "git-hooks";
+      };
+    };
+
+    uchar = {
+      url = "git+https://git.oss.uzinfocom.uz/ezozbek36/uchar-web.git?shallow=1&ref=nix";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs-unstable";
+      };
+    };
   };
 
   outputs =
@@ -272,7 +290,6 @@
                 arch = "x86_64";
                 class = "nixos";
                 tags = [
-                  "lix"
                   "laptop"
                 ];
               };
@@ -317,9 +334,11 @@
   nixConfig = {
     extra-substituters = [
       "https://cache.xinux.uz"
+      "https://cache.lantian.pub/lantian"
     ];
     extra-trusted-public-keys = [
       "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0="
+      "lantian:WVGO7vsRMSEN+h7Lp7kv6SAmrkEXgUGbbXm7jMDjBuQ="
     ];
   };
 }

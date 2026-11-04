@@ -8,6 +8,7 @@
     enable = true;
     installRemoteServer = false;
 
+    package = pkgs.unstable.zed-editor;
     extraPackages = with pkgs; [ blueprint-compiler ];
 
     userSettings = {
@@ -59,6 +60,12 @@
             "kotlin-language-server"
             "detekt"
             "!kotlin-lsp"
+          ];
+        };
+        Perl = {
+          language_servers = [
+            "!perl-lsp"
+            "perlnavigator-server"
           ];
         };
       };
@@ -128,6 +135,19 @@
             };
           };
         };
+        perlnavigator-server = {
+          settings = {
+            perlnavigator =
+              let
+                perl = pkgs.perl.withPackages (p: with p; [ PerlCritic ]);
+              in
+              {
+                enableWarnings = true;
+                perlcriticEnabled = true;
+                perlPath = lib.getExe perl;
+              };
+          };
+        };
       };
 
       git = {
@@ -155,6 +175,7 @@
       lua
       xml
       nix
+      perl
       toml
       just
       meson
@@ -163,6 +184,11 @@
       crates-lsp
       git-firefly
       material-icon-theme
+
+      rst
+      make
+      kconfig
+      devicetree
     ];
   };
 }

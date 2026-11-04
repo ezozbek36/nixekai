@@ -3,5 +3,8 @@
   #   enable = true;
   # };
 
-  home.packages = with pkgs; [ fractal ];
+  home.packages = with pkgs; [
+    fractal
+    uchar-desktop
+  ];
 }
